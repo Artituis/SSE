@@ -150,7 +150,7 @@ Will probably not provide a exaustive list of all the risks.
 
 Might need to analyse on a component-by-component, tier-by-tier, and environment-by-environment level to create a more secure enviroment.
 
-## Capturing Security Requirements through Misuse Cases
+## [Capturing Security Requirements through Misuse Cases](./pdfs/Capturing%20Security%20Requirements%20through%20Misuse%20Cases.pdf)
 
 
 -  Name: Just like normal use cases, every misuse case should have a distinguishing name.
