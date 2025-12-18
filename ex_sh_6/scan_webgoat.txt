@@ -1,0 +1,2086 @@
+                     
+                     
+┌───────────────────┐
+│ 185 Code Findings │
+└───────────────────┘
+                                   
+  [36m[22m[24m  docs/index.html [0m
+       [1m[24mhtml.security.audit.missing-integrity.missing-integrity[0m                             
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'        
+          attribute allows for the browser to verify that externally hosted files (for example from a
+          CDN) are delivered without unexpected manipulation. Without this attribute, if an attacker 
+          can modify the externally hosted resource, this could lead to XSS and other types of       
+          attacks. To prevent this, include the base64-encoded cryptographic hash of the resource    
+          (file) you’re telling the browser to fetch in the 'integrity' attribute for all externally 
+          hosted files.                                                                              
+          Details: https://sg.run/krXA                                                               
+                                                                                                     
+            7┆ [1m[24m<link rel="canonical" href="https://webgoat.org" />[0m
+                                                                                   
+  [36m[22m[24m  src/it/java/org/owasp/webgoat/playwright/webwolf/JwtUITest.java [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+           31┆  ...                                                                                                     
+  [1m[24meyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+  .[0mSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_ ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/container/service/LabelDebugService.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           35┆ @[1m[24mRequestMapping[0m(path = URL_DEBUG_LABELS_MVC, produces = MediaType.APPLICATION_JSON_VALUE)
+            ⋮┆----------------------------------------
+           48┆ @[1m[24mRequestMapping[0m(
+                                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/container/service/LessonMenuService.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           45┆ @[1m[24mRequestMapping[0m(path = URL_LESSONMENU_MVC, produces = "application/json")
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/container/service/SessionService.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           22┆ @[1m[24mRequestMapping[0m(path = "/service/enable-security.mvc", produces = "application/json")
+                                                                                                   
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/challenges/challenge1/ImageServlet.java [0m
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           21┆ public static final int PINCODE = [1m[24mnew Random().nextInt(10000)[0m;
+                                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/challenges/challenge5/Assignment5.java [0m
+       [1m[24mjava.spring.security.injection.tainted-sql-string.tainted-sql-string[0m                
+          User data flows into this manually-constructed SQL string. User data can be safely inserted
+          into SQL strings using prepared statements or an object-relational mapper (ORM). Manually- 
+          constructed SQL strings is a possible indicator of SQL injection, which could let an       
+          attacker steal or manipulate data from the database. Instead, use prepared statements      
+          (`connection.PreparedStatement`) or a safe library.                                        
+          Details: https://sg.run/9rzz                                                               
+                                                                                                     
+           45┆ [1m[24m"select password from challenge_users where userid = '"[0m
+           46┆ [1m[24m    + username_login[0m
+           47┆ [1m[24m    + "' and password = '"[0m
+           48┆ [1m[24m    + password_login[0m
+           49┆ [1m[24m    + "'"[0m);
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           50┆ ResultSet resultSet = [1m[24mstatement.executeQuery()[0m;
+                                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/cryptography/EncodingAssignment.java [0m
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           37┆ HashingAssignment.SECRETS[[1m[24mnew Random().nextInt(HashingAssignment.SECRETS.length)[0m];
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.tainted-session-from-http-request.tainted-session-from-http-request[0m
+          Detected input from a HTTPServletRequest going into a session command, like `setAttribute`.        
+          User input into such a command could lead to an attacker inputting malicious code into your        
+          session parameters, blurring the line between what's trusted and untrusted, and therefore          
+          leading to a trust boundary violation. This could lead to programmers trusting unvalidated         
+          data. Instead, thoroughly sanitize user input before passing it into such function calls.          
+          Details: https://sg.run/QbDZ                                                                       
+                                                                                                             
+           39┆ request.getSession().setAttribute("basicAuth", [1m[24mbasicAuth[0m);
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/cryptography/HashingAssignment.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           30┆ @[1m[24mRequestMapping[0m(path = "/crypto/hashing/md5", produces = MediaType.TEXT_HTML_VALUE)
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           37┆ String secret = SECRETS[[1m[24mnew Random().nextInt(SECRETS.length)[0m];
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.use-of-md5.use-of-md5[0m                                
+          Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and
+          is therefore not suitable as a cryptographic signature. Use HMAC instead.                   
+          Details: https://sg.run/ryJn                                                                
+                                                                                                      
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m "SHA-512"
+           39┆ MessageDigest md = MessageDigest.getInstance([1m[24m"MD5"[0m);
+            ⋮┆----------------------------------------
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           49┆ @[1m[24mRequestMapping[0m(path = "/crypto/hashing/sha256", produces = MediaType.TEXT_HTML_VALUE)
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           55┆ String secret = SECRETS[[1m[24mnew Random().nextInt(SECRETS.length)[0m];
+                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/cryptography/SigningAssignment.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           37┆ @[1m[24mRequestMapping[0m(path = "/crypto/signing/getprivate", produces = MediaType.TEXT_HTML_VALUE)
+                                                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/deserialization/InsecureDeserializationTask.java [0m
+       [1m[24mjava.lang.security.audit.object-deserialization.object-deserialization[0m             
+          Found object deserialization using ObjectInputStream. Deserializing entire Java objects is
+          dangerous because malicious actors can create Java object streams with unintended         
+          consequences. Ensure that the objects being deserialized are not user-controlled. If this 
+          must be done, consider using HMACs to sign the data stream to make sure it is not tampered
+          with, or consider only transmitting object fields and populating a new object.            
+          Details: https://sg.run/Ek0A                                                              
+                                                                                                    
+           42┆ try ([1m[24mObjectInputStream ois =[0m
+           43┆ [1m[24m    new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))[0m) {
+                                                                                                    
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/deserialization/SerializationHelper.java [0m
+       [1m[24mjava.lang.security.audit.object-deserialization.object-deserialization[0m             
+          Found object deserialization using ObjectInputStream. Deserializing entire Java objects is
+          dangerous because malicious actors can create Java object streams with unintended         
+          consequences. Ensure that the objects being deserialized are not user-controlled. If this 
+          must be done, consider using HMACs to sign the data stream to make sure it is not tampered
+          with, or consider only transmitting object fields and populating a new object.            
+          Details: https://sg.run/Ek0A                                                              
+                                                                                                    
+           22┆ [1m[24mObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))[0m;
+                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/hijacksession/HijackSessionAssignment.java [0m
+       [1m[24mjava.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m           
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/b7Be                                                              
+                                                                                                    
+           70┆ [1m[24mresponse.addCookie(cookie);[0m
+                                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/hijacksession/cas/HijackSessionAuthenticationProvider.java [0m
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           25┆ private static long id = [1m[24mnew Random().nextLong()[0m & Long.MAX_VALUE;
+                                                                                         
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/jwt/JWTSecretKeyEndpoint.java [0m
+       [1m[24mjava.lang.security.audit.crypto.weak-random.weak-random[0m                           
+          Detected use of the functions `Math.random()` or `java.util.Random()`. These are both not
+          cryptographically strong random number generators (RNGs). If you are using these RNGs to 
+          create passwords or secret tokens, use `java.security.SecureRandom` instead.             
+          Details: https://sg.run/NwBp                                                             
+                                                                                                   
+           38┆ TextCodec.BASE64.encode(SECRETS[[1m[24mnew Random().nextInt(SECRETS.length)[0m]);
+            ⋮┆----------------------------------------
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           43┆ @[1m[24mRequestMapping[0m(path = "/JWT/secret/gettoken", produces = MediaType.TEXT_HTML_VALUE)
+                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/jwt/JWTVotesEndpoint.java [0m
+       [1m[24mjava.servlets.security.cookie-issecure-false.cookie-issecure-false[0m              
+          Default session middleware settings: `setSecure` not set to true. This ensures that the
+          cookie is sent only over HTTPS to prevent cross-site scripting attacks.                
+          Details: https://sg.run/pxn0                                                           
+                                                                                                 
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m cookie = new Cookie("access_token", token);
+  cookie.setSecure(true);                                                          
+          114┆ [1m[24mCookie cookie = new Cookie("access_token", token)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m           
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/b7Be                                                              
+                                                                                                    
+          115┆ [1m[24mresponse.addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m    
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'cookie.setSecure(true);'                                   
+          Details: https://sg.run/kXoK                                                             
+                                                                                                   
+          115┆ [1m[24mresponse.addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.servlets.security.cookie-issecure-false.cookie-issecure-false[0m              
+          Default session middleware settings: `setSecure` not set to true. This ensures that the
+          cookie is sent only over HTTPS to prevent cross-site scripting attacks.                
+          Details: https://sg.run/pxn0                                                           
+                                                                                                 
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m cookie = new Cookie("access_token", "");
+  cookie.setSecure(true);                                                       
+          119┆ [1m[24mCookie cookie = new Cookie("access_token", "")[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m           
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/b7Be                                                              
+                                                                                                    
+          120┆ [1m[24mresponse.addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m    
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'cookie.setSecure(true);'                                   
+          Details: https://sg.run/kXoK                                                             
+                                                                                                   
+          120┆ [1m[24mresponse.addCookie(cookie);[0m
+                                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/jwt/claimmisuse/JWTHeaderJKUEndpoint.java [0m
+       [1m[24mjava.spring.security.injection.tainted-url-host.tainted-url-host[0m                    
+          User data flows into the host portion of this manually-constructed URL. This could allow an
+          attacker to send data to their own server, potentially exposing sensitive data such as     
+          cookies or authorization information sent with this request. They could also probe internal
+          servers or other resources that the server running this code can access. (This is called   
+          server-side request forgery, or SSRF.) Do not allow arbitrary hosts. Instead, create an    
+          allowlist for approved hosts, hardcode the correct host, or ensure that the user data can  
+          only affect the path or parameters.                                                        
+          Details: https://sg.run/vkYn                                                               
+                                                                                                     
+           57┆ var jwkProvider = new JwkProviderBuilder([1m[24mnew URL(jku.asString())[0m).build();
+                                                                                                      
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/openredirect/OpenRedirectRealRedirect.java [0m
+       [1m[24mjava.spring.security.audit.spring-unvalidated-redirect.spring-unvalidated-redirect[0m
+          Application redirects a user to a destination URL specified by a user supplied parameter 
+          that is not validated.                                                                   
+          Details: https://sg.run/9oXz                                                             
+                                                                                                   
+           18┆ [1m[24m@GetMapping("/OpenRedirect/realRedirect")[0m
+           19┆ [1m[24mpublic ModelAndView real(@RequestParam("url") String url) {[0m
+           20┆ [1m[24m  // Intentionally vulnerable: no validation[0m
+           21┆ [1m[24m  return new ModelAndView("redirect:" + url);[0m
+           22┆ [1m[24m}[0m
+                                                                                                     
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/pathtraversal/ProfileUploadRetrieval.java [0m
+       [1m[24mjava.lang.security.httpservlet-path-traversal.httpservlet-path-traversal[0m             
+          Detected a potential path traversal. A malicious actor could control the location of this   
+          file, to include going backwards in the directory with '../'. To address this, ensure that  
+          user-controlled variables in file paths are sanitized. You may also consider using a utility
+          method such as org.apache.commons.io.FilenameUtils.getName(...) to only retrieve the file   
+          name from the path.                                                                         
+          Details: https://sg.run/oxXN                                                                
+                                                                                                      
+          100┆ var [1m[24mcatPicture =[0m
+          101┆ [1m[24m    new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg")[0m;
+                                                                                                  
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/spoofcookie/SpoofCookieAssignment.java [0m
+       [1m[24mjava.servlets.security.cookie-issecure-false.cookie-issecure-false[0m              
+          Default session middleware settings: `setSecure` not set to true. This ensures that the
+          cookie is sent only over HTTPS to prevent cross-site scripting attacks.                
+          Details: https://sg.run/pxn0                                                           
+                                                                                                 
+  [32m[22m[24m         ▶▶┆ Autofix ▶[0m cookie = new Cookie(COOKIE_NAME, "");
+  cookie.setSecure(true);                                                    
+           58┆ [1m[24mCookie cookie = new Cookie(COOKIE_NAME, "")[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m           
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/b7Be                                                              
+                                                                                                    
+           60┆ [1m[24mresponse.addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-secure-flag.cookie-missing-secure-flag[0m    
+          A cookie was detected without setting the 'secure' flag. The 'secure' flag for cookies   
+          prevents the client from transmitting the cookie over insecure channels such as HTTP. Set
+          the 'secure' flag by calling 'cookie.setSecure(true);'                                   
+          Details: https://sg.run/kXoK                                                             
+                                                                                                   
+           60┆ [1m[24mresponse.addCookie(cookie);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.cookie-missing-httponly.cookie-missing-httponly[0m           
+          A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly' flag for cookies
+          instructs the browser to forbid client-side scripts from reading the cookie. Set the      
+          'HttpOnly' flag by calling 'cookie.setHttpOnly(true);'                                    
+          Details: https://sg.run/b7Be                                                              
+                                                                                                    
+           77┆ [1m[24mresponse.addCookie(newCookie);[0m
+                                                                                                            
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/advanced/SqlInjectionChallenge.java [0m
+       [1m[24mjava.spring.security.injection.tainted-sql-string.tainted-sql-string[0m                
+          User data flows into this manually-constructed SQL string. User data can be safely inserted
+          into SQL strings using prepared statements or an object-relational mapper (ORM). Manually- 
+          constructed SQL strings is a possible indicator of SQL injection, which could let an       
+          attacker steal or manipulate data from the database. Instead, use prepared statements      
+          (`connection.PreparedStatement`) or a safe library.                                        
+          Details: https://sg.run/9rzz                                                               
+                                                                                                     
+           55┆ [1m[24m"select userid from sql_challenge_users where userid = '" + username + "'"[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           57┆ ResultSet resultSet = [1m[24mstatement.executeQuery(checkUserQuery)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+           57┆ ResultSet resultSet = [1m[24mstatement.executeQuery(checkUserQuery)[0m;
+                                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson10.java [0m
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           56┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+           56┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+                                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson2.java [0m
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+           49┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+                                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson5a.java [0m
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           52┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+                                                                                                               
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson5b.java [0m
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           69┆ ResultSet results = [1m[24mquery.executeQuery()[0m;
+                                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson8.java [0m
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           62┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+           62┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+          142┆ [1m[24mstatement.executeUpdate(logQuery)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+          142┆ [1m[24mstatement.executeUpdate(logQuery)[0m;
+                                                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/introduction/SqlInjectionLesson9.java [0m
+       [1m[24mjava.lang.security.audit.formatted-sql-string.formatted-sql-string[0m           
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/OPXp                                                        
+                                                                                              
+           65┆ [1m[24mstatement.execute(queryInjection)[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjava.lang.security.audit.sqli.jdbc-sqli.jdbc-sqli[0m                            
+          Detected a formatted string in a SQL statement. This could lead to SQL injection if 
+          variables in the SQL statement are not properly sanitized. Use a prepared statements
+          (java.sql.PreparedStatement) instead. You can obtain a PreparedStatement using      
+          'connection.prepareStatement'.                                                      
+          Details: https://sg.run/AvkL                                                        
+                                                                                              
+           65┆ [1m[24mstatement.execute(queryInjection)[0m;
+            ⋮┆----------------------------------------
+           94┆ ResultSet results = [1m[24mstatement.executeQuery(query)[0m;
+                                                                                                
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/sqlinjection/mitigation/Servers.java [0m
+       [1m[24mjava.spring.security.injection.tainted-sql-string.tainted-sql-string[0m                
+          User data flows into this manually-constructed SQL string. User data can be safely inserted
+          into SQL strings using prepared statements or an object-relational mapper (ORM). Manually- 
+          constructed SQL strings is a possible indicator of SQL injection, which could let an       
+          attacker steal or manipulate data from the database. Instead, use prepared statements      
+          (`connection.PreparedStatement`) or a safe library.                                        
+          Details: https://sg.run/9rzz                                                               
+                                                                                                     
+           51┆ [1m[24m"select id, hostname, ip, mac, status, description from SERVERS where status <> 'out"[0m
+           52┆ [1m[24m    + " of order' order by "[0m
+           53┆ [1m[24m    + column[0m)) {
+                                                                              
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/lessons/xxe/SimpleXXE.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           77┆ @[1m[24mRequestMapping[0m(
+                                                                           
+  [36m[22m[24m  src/main/java/org/owasp/webgoat/webwolf/FileServer.java [0m
+       [1m[24mjava.spring.security.unrestricted-request-mapping.unrestricted-request-mapping[0m       
+          Detected a method annotated with 'RequestMapping' that does not specify the HTTP method.    
+          CSRF protections are not enabled for GET, HEAD, TRACE, or OPTIONS, and by default all HTTP  
+          methods are allowed when the HTTP method is not explicitly specified. This means that a     
+          method that performs state changes could be vulnerable to CSRF attacks. To mitigate, add the
+          'method' field and specify the HTTP method (such as 'RequestMethod.POST').                  
+          Details: https://sg.run/2xlq                                                                
+                                                                                                      
+           56┆ @[1m[24mRequestMapping[0m(
+            ⋮┆----------------------------------------
+       [1m[24mjava.spring.security.injection.tainted-file-path.tainted-file-path[0m                   
+          Detected user input controlling a file path. An attacker could control the location of this 
+          file, to include going backwards in the directory with '../'. To address this, ensure that  
+          user-controlled variables in file paths are sanitized. You may also consider using a utility
+          method such as org.apache.commons.io.FilenameUtils.getName(...) to only retrieve the file   
+          name from the path.                                                                         
+          Details: https://sg.run/x9o0                                                                
+                                                                                                      
+           79┆ log.debug("File saved to {}", [1m[24mnew File(destinationDir, multipartFile.getOriginalFilename())[0m);
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/authbypass/html/AuthBypass.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           23┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="verify-account-form"[0m
+           24┆ [1m[24m      method="POST" name="form"[0m
+           25┆ [1m[24m      successCallback="onBypassResponse"[0m
+           26┆ [1m[24m      th:action="@{/auth-bypass/verify-account}">[0m
+           27┆ [1m[24m    <p>Verify Your Account by answering the questions below:</p>[0m
+           28┆ [1m[24m[0m
+           29┆ [1m[24m    <p>What is the name of your favorite teacher?</p>[0m
+           30┆ [1m[24m    <input name="secQuestion0" value="" type="TEXT" /><br/>[0m
+           31┆ [1m[24m[0m
+           32┆ [1m[24m    <p>What is the name of the street you grew up on?</p>[0m
+             [hid 9 additional lines, adjust with --max-lines-per-finding] 
+           43┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="change-password-form"[0m
+           44┆ [1m[24m      method="POST" name="form"[0m
+           45┆ [1m[24m      successCallback="onBypassResponse"[0m
+           46┆ [1m[24m      th:action="@{/auth-bypass/verify-account}"[0m
+           47┆ [1m[24m      style="display:none"><!-- start off hidden -->[0m
+           48┆ [1m[24m    <p>Please provide a new password for your account</p>[0m
+           49┆ [1m[24m[0m
+           50┆ [1m[24m    <p>Password:</p>[0m
+           51┆ [1m[24m    <input name="newPassword" value="" type="password" /><br/>[0m
+           52┆ [1m[24m[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/challenges/html/Challenge1.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           15┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           16┆ [1m[24m      method="POST" name="form"[0m
+           17┆ [1m[24m      th:action="@{/challenge/1}"[0m
+           18┆ [1m[24m      style="width: 200px;">[0m
+           19┆ [1m[24m[0m
+           20┆ [1m[24m    <div class="form-group">[0m
+           21┆ [1m[24m        <label for="exampleInputEmail1" th:text="#{username}">Username</label>[0m
+           22┆ [1m[24m        <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"[0m
+           23┆ [1m[24m               id="exampleInputEmail1" placeholder="Username" name='username' value="admin"/>[0m
+           24┆ [1m[24m    </div>[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+           37┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/1}">[0m
+           38┆ [1m[24m    <div class="form-group">[0m
+           39┆ [1m[24m        <div class="input-group">[0m
+           40┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+           41┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+           42┆ [1m[24m            <input type="text" class="form-control" id="flag" name="flag"[0m
+           43┆ [1m[24m                   placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>[0m
+           44┆ [1m[24m        </div>[0m
+           45┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+           46┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit flag</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/challenges/html/Challenge5.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           69┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/5}">[0m
+           70┆ [1m[24m    <div class="form-group">[0m
+           71┆ [1m[24m        <div class="input-group">[0m
+           72┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+           73┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+           74┆ [1m[24m            <input type="text" class="form-control" id="flag" name="flag"[0m
+           75┆ [1m[24m                   placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>[0m
+           76┆ [1m[24m        </div>[0m
+           77┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+           78┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit flag</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/challenges/html/Challenge6.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+          102┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/6}">[0m
+          103┆ [1m[24m    <div class="form-group">[0m
+          104┆ [1m[24m        <div class="input-group">[0m
+          105┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+          106┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+          107┆ [1m[24m            <input type="text" class="form-control" id="flag" name="flag"[0m
+          108┆ [1m[24m                   placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>[0m
+          109┆ [1m[24m        </div>[0m
+          110┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+          111┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit flag</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/challenges/html/Challenge7.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           60┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/7}">[0m
+           61┆ [1m[24m    <div class="form-group">[0m
+           62┆ [1m[24m        <div class="input-group">[0m
+           63┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+           64┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+           65┆ [1m[24m            <input type="text" class="form-control" id="flag" name="flag"[0m
+           66┆ [1m[24m                   placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>[0m
+           67┆ [1m[24m        </div>[0m
+           68┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+           69┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit flag</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/challenges/html/Challenge8.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+          234┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/8}">[0m
+          235┆ [1m[24m    <div class="form-group">[0m
+          236┆ [1m[24m        <div class="input-group">[0m
+          237┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+          238┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+          239┆ [1m[24m            <input type="text" class="form-control" id="flag" name="flag"[0m
+          240┆ [1m[24m                   placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>[0m
+          241┆ [1m[24m        </div>[0m
+          242┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+          243┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit flag</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                                      
+  [36m[22m[24m  src/main/resources/lessons/chromedevtools/html/ChromeDevTools.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           25┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           26┆ [1m[24m      method="POST" name="DOMFollowUp"[0m
+           27┆ [1m[24m      th:action="@{/ChromeDevTools/dummy}">[0m
+           28┆ [1m[24m    <input name="successMessage" value="" type="TEXT" />[0m
+           29┆ [1m[24m    <input name="submitMessage" value="Submit" type="SUBMIT"/>[0m
+           30┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           46┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           47┆ [1m[24m      method="POST" name="form"[0m
+           48┆ [1m[24m      th:action="@{/ChromeDevTools/network}">[0m
+           49┆ [1m[24m    <script>[0m
+           50┆ [1m[24m        // sample custom javascript in the recommended way ...[0m
+           51┆ [1m[24m        // a namespace has been assigned for it, but you can roll your own if you prefer[0m
+           52┆ [1m[24m        document.getElementById("btn").addEventListener("click", function() {[0m
+           53┆ [1m[24m            document.getElementById("networkNum").value = Math.random() * 100;[0m
+           54┆ [1m[24m            document.getElementById("networkNumCopy").value =                                     
+  document.getElementById("networkNum").value;[0m                                                                       
+           55┆ [1m[24m        });[0m
+             [hid 10 additional lines, adjust with --max-lines-per-finding] 
+           67┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           68┆ [1m[24m      method="POST" name="form"[0m
+           69┆ [1m[24m      th:action="@{/ChromeDevTools/network}">[0m
+           70┆ [1m[24m    <table>[0m
+           71┆ [1m[24m        <tr>[0m
+           72┆ [1m[24m            <td>What is the number you found:   </td>[0m
+           73┆ [1m[24m            <td><input name="number" type="text"/></td>[0m
+           74┆ [1m[24m            <td><input type="submit" name="Submit" value="check"/></td>[0m
+           75┆ [1m[24m            <td></td>[0m
+           76┆ [1m[24m        </tr>[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+                                                                
+  [36m[22m[24m  src/main/resources/lessons/cia/html/CIA.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           30┆ [1m[24m<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"[0m
+           31┆ [1m[24m      method="POST" name="form"[0m
+           32┆ [1m[24m      th:action="@{/cia/quiz}" role="form">[0m
+           33┆ [1m[24m    <div id="q_container"></div>[0m
+           34┆ [1m[24m    <br />[0m
+           35┆ [1m[24m    <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>[0m
+           36┆ [1m[24m</form>[0m
+                                                                                                
+  [36m[22m[24m  src/main/resources/lessons/clientsidefiltering/html/ClientSideFiltering.html [0m
+       [1m[24mhtml.security.plaintext-http-link.plaintext-http-link[0m                        
+          This link points to a plaintext HTTP URL. Prefer an encrypted HTTPS URL if possible.
+          Details: https://sg.run/RA5q                                                        
+                                                                                              
+           96┆ <h5 style="color:#337ab7">[1m[24m<a href="http://www.samsung.com">Samsung</a>[0m ·
+                                                                                            
+  [36m[22m[24m  src/main/resources/lessons/clientsidefiltering/js/clientSideFiltering.js [0m
+       [1m[24mjavascript.browser.security.insecure-document-method.insecure-document-method[0m   
+          User controlled data in methods like `innerHTML`, `outerHTML` or `document.write` is an
+          anti-pattern that can lead to XSS vulnerabilities                                      
+          Details: https://sg.run/LwA9                                                           
+                                                                                                 
+            6┆ [1m[24mdocument.getElementById("employeeRecord").innerHTML =                                             
+  document.getElementById(newEmployeeID).innerHTML;[0m                                                                  
+            ⋮┆----------------------------------------
+           38┆ [1m[24mnewdiv.innerHTML = html;[0m
+                                                                                  
+  [36m[22m[24m  src/main/resources/lessons/cryptography/html/Cryptography.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           31┆ [1m[24m<form class="attack-form" method="POST" name="form"                                              
+  th:action="@{/crypto/encoding/basic-auth}">[0m                                                                       
+           32┆ [1m[24mThen what was the username[0m
+           33┆ [1m[24m<input name="answer_user" value="" type="TEXT"/>[0m
+           34┆ [1m[24mand what was the password:[0m
+           35┆ [1m[24m<input name="answer_pwd" value="" type="TEXT"/>[0m
+           36┆ [1m[24m<input name="SUBMIT" value="post the answer" type="SUBMIT"/>[0m
+           37┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           48┆ [1m[24m<form class="attack-form" method="POST" name="form"                                       
+  th:action="@{/crypto/encoding/xor}">[0m                                                                       
+           49┆ [1m[24mSuppose you found the database password encoded as {xor}Oz4rPj0+LDovPiwsKDAtOw==<br/>[0m
+           50┆ [1m[24mWhat would be the actual password[0m
+           51┆ [1m[24m<input name="answer_pwd1" value="" type="TEXT"/><br/>[0m
+           52┆ [1m[24m<input name="SUBMIT" value="post the answer" type="SUBMIT"/>[0m
+           53┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           65┆ [1m[24m<form class="attack-form" method="POST" name="form"                                  
+  th:action="@{/crypto/hashing}">[0m                                                                       
+           66┆ [1m[24mWhich password belongs to this hash: <div id="md5token" ></div>[0m
+           67┆ [1m[24m<input name="answer_pwd1" value="" type="TEXT"/><br/>[0m
+           68┆ [1m[24mWhich password belongs to this hash: <div id="sha256token" ></div>[0m
+           69┆ [1m[24m<input name="answer_pwd2" value="" type="TEXT"/>[0m
+           70┆ [1m[24m<input name="SUBMIT" value="post the answer" type="SUBMIT"/>[0m
+           71┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           90┆ [1m[24m<form class="attack-form" method="POST" name="form"                                         
+  th:action="@{/crypto/signing/verify}">[0m                                                                       
+           91┆ [1m[24mThen what was the modulus of the public key[0m
+           92┆ [1m[24m<input name="modulus" value="" type="TEXT"/>[0m
+           93┆ [1m[24mand now provide a signature for us based on that modulus[0m
+           94┆ [1m[24m<input name="signature" value="" type="TEXT"/>[0m
+           95┆ [1m[24m<input name="SUBMIT" value="post the answer" type="SUBMIT"/>[0m
+           96┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          113┆ [1m[24m<form class="attack-form" method="POST" name="form"                                          
+  th:action="@{/crypto/secure/defaults}">[0m                                                                       
+          114┆ [1m[24mWhat is the unencrypted message<br/>[0m
+          115┆ [1m[24m<input name="secretText" value="" type="TEXT"/><br/>[0m
+          116┆ [1m[24mand what is the name of the file that stored the password <br/>[0m
+          117┆ [1m[24m<input name="secretFileName" value="" type="TEXT"/>[0m
+          118┆ [1m[24m<input name="SUBMIT" value="post the answer" type="SUBMIT"/>[0m
+          119┆ [1m[24m</form>[0m
+                                                                  
+  [36m[22m[24m  src/main/resources/lessons/csrf/html/CSRF.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           16┆ [1m[24m<form accept-charset="UNKNOWN" id="basic-csrf-get"[0m
+           17┆ [1m[24m      method="POST" name="form1"[0m
+           18┆ [1m[24m      target="_blank"[0m
+           19┆ [1m[24m      successCallback=""[0m
+           20┆ [1m[24m      th:action="@{/csrf/basic-get-flag}">[0m
+           21┆ [1m[24m    <input name="csrf" type="hidden" value="false"/>[0m
+           22┆ [1m[24m    <input type="submit" name="submit"/>[0m
+           23┆ [1m[24m[0m
+           24┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           35┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-1"[0m
+           36┆ [1m[24m      method="POST" name="form2"[0m
+           37┆ [1m[24m      successCallback=""[0m
+           38┆ [1m[24m      th:action="@{/csrf/confirm-flag-1}">[0m
+           39┆ [1m[24m[0m
+           40┆ [1m[24m    Confirm Flag Value:[0m
+           41┆ [1m[24m    <input type="text" length="6" name="confirmFlagVal" value=""/>[0m
+           42┆ [1m[24m[0m
+           43┆ [1m[24m    <input name="submit" value="Submit" type="submit"/>[0m
+           44┆ [1m[24m    <br/>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+           93┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="csrf-review"[0m
+           94┆ [1m[24m      method="POST" name="review-form"[0m
+           95┆ [1m[24m      successCallback=""[0m
+           96┆ [1m[24m      th:action="@{/csrf/review}">[0m
+           97┆ [1m[24m    <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review"[0m
+           98┆ [1m[24m           type="text"/>[0m
+           99┆ [1m[24m    <input class="form-control" id="reviewStars" name="stars" type="text"/>[0m
+          100┆ [1m[24m    <input type="hidden" name="validateReq" value="2aa14227b9a13d0bede0388a7fba9aa9"/>[0m
+          101┆ [1m[24m    <input type="submit" name="submit" value="Submit review"/>[0m
+          102┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          213┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-feedback"[0m
+          214┆ [1m[24m      method="POST" name="form2"[0m
+          215┆ [1m[24m      th:action="@{/csrf/feedback}">[0m
+          216┆ [1m[24m[0m
+          217┆ [1m[24m    Confirm Flag Value:[0m
+          218┆ [1m[24m    <input type="text" length="6" name="confirmFlagVal" value=""/>[0m
+          219┆ [1m[24m[0m
+          220┆ [1m[24m    <input name="submit" value="Submit" type="submit"/>[0m
+          221┆ [1m[24m[0m
+          222┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          237┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-login"[0m
+          238┆ [1m[24m      method="POST" name="form2"[0m
+          239┆ [1m[24m      th:action="@{/csrf/login}">[0m
+          240┆ [1m[24m[0m
+          241┆ [1m[24m    Press the button below when your are logged in as the other user<br/>[0m
+          242┆ [1m[24m[0m
+          243┆ [1m[24m    <input name="submit" value="Solved!" type="submit"/>[0m
+          244┆ [1m[24m[0m
+          245┆ [1m[24m</form>[0m
+                                                                                                
+  [36m[22m[24m  src/main/resources/lessons/deserialization/html/InsecureDeserialization.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           26┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="task"[0m
+           27┆ [1m[24m      method="POST"[0m
+           28┆ [1m[24m      th:action="@{/InsecureDeserialization/task}">[0m
+           29┆ [1m[24m[0m
+           30┆ [1m[24m    <input type="textarea" rows="4" cols="40" value="" name="token" placeholder="token"/>[0m
+           31┆ [1m[24m    <input type="submit" value="Submit" />[0m
+           32┆ [1m[24m[0m
+           33┆ [1m[24m</form>[0m
+                                                                                    
+  [36m[22m[24m  src/main/resources/lessons/hijacksession/html/HijackSession.html [0m
+       [1m[24mhtml.security.audit.missing-integrity.missing-integrity[0m                             
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'        
+          attribute allows for the browser to verify that externally hosted files (for example from a
+          CDN) are delivered without unexpected manipulation. Without this attribute, if an attacker 
+          can modify the externally hosted resource, this could lead to XSS and other types of       
+          attacks. To prevent this, include the base64-encoded cryptographic hash of the resource    
+          (file) you’re telling the browser to fetch in the 'integrity' attribute for all externally 
+          hosted files.                                                                              
+          Details: https://sg.run/krXA                                                               
+                                                                                                     
+            5┆ [1m[24m<link rel="stylesheet" type="text/css"[0m
+            6┆ [1m[24m    href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css"  
+  />[0m                                                                                     
+                                                                                      
+  [36m[22m[24m  src/main/resources/lessons/hijacksession/templates/hijackform.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+            3┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" method="POST"[0m
+            4┆ [1m[24m                                       
+  th:action="@{/HijackSession/login}">[0m                    
+            5┆ [1m[24m    <div style="padding: 20px;"                    
+  id="password-login">[0m                                                
+            6┆ [1m[24m            <h4 style="border-bottom: 1px solid #c5c5c5;">Account   
+  Access</h4>[0m                                                                          
+            7┆ [1m[24m             
+  <fieldset>[0m                    
+            8┆ [1m[24m                    <div               
+  class="form-group input-group">[0m                         
+            9┆ [1m[24m                            <span     
+  class="input-group-addon"> <i[0m                          
+           10┆ [1m[24m                                        
+  class="glyphicon glyphicon-user"></i>[0m                    
+           11┆ [1m[24m                            </span> <input                    
+  class="form-control" placeholder="User name"[0m                                   
+           12┆ [1m[24m                                       
+  name="username" type="text"></input>[0m                    
+             [hid 10 additional lines, adjust with --max-lines-per-finding] 
+                                                                              
+  [36m[22m[24m  src/main/resources/lessons/httpbasics/html/HttpBasics.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           26┆ [1m[24m<form accept-charset="UNKNOWN" method="POST" name="form"[0m
+           27┆ [1m[24m                                   
+  th:action="@{/#attack/307/100}">[0m                    
+           28┆ [1m[24m    Enter your name: <input name="person" value=""                   
+  type="TEXT"/><input[0m                                                                   
+           29┆ [1m[24m            name="SUBMIT" value="Go!" type="SUBMIT"         
+  class="spacing"/>[0m                                                            
+           30┆ [1m[24m</form>[0m
+                                                                                
+  [36m[22m[24m  src/main/resources/lessons/httpproxies/html/HttpProxies.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           25┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="intercept-request"[0m
+           26┆ [1m[24m      method="POST"[0m
+           27┆ [1m[24m      th:action="@{/HttpProxies/intercept-request}">[0m
+           28┆ [1m[24m[0m
+           29┆ [1m[24m    <input type="text" value="doesn't matter really" name="changeMe" />[0m
+           30┆ [1m[24m    <input type="submit" value="Submit" />[0m
+           31┆ [1m[24m[0m
+           32┆ [1m[24m</form>[0m
+                                                                  
+  [36m[22m[24m  src/main/resources/lessons/idor/html/IDOR.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           23┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           24┆ [1m[24m      method="POST" name="form"[0m
+           25┆ [1m[24m      th:action="@{/IDOR/login}">[0m
+           26┆ [1m[24m    <table>[0m
+           27┆ [1m[24m        <tr>[0m
+           28┆ [1m[24m            <td>user/pass</td>[0m
+           29┆ [1m[24m            <td>user:<input name="username" value="" type="TEXT" /></td>[0m
+           30┆ [1m[24m            <td>pass:<input name="password" value="" type="password" /></td>[0m
+           31┆ [1m[24m            <td>[0m
+           32┆ [1m[24m                <input[0m
+             [hid 5 additional lines, adjust with --max-lines-per-finding] 
+           81┆ [1m[24m<form class="attack-form"[0m
+           82┆ [1m[24m      method="POST" name="diff-form"[0m
+           83┆ [1m[24m      th:action="@{/IDOR/diff-attributes}">[0m
+           84┆ [1m[24m    <input name="attributes" type="text" />[0m
+           85┆ [1m[24m    <input name="Submit Diffs" value="Submit Diffs" type="submit" />[0m
+           86┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          108┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          109┆ [1m[24m      method="POST" name="form"[0m
+          110┆ [1m[24m      th:action="@{/IDOR/profile/alt-path}">[0m
+          111┆ [1m[24m    <div class="adoc-content"                                                                     
+  th:replace="~{doc:lessons/idor/documentation/IDOR_inputAltPath.adoc}"></div>[0m                                       
+          112┆ [1m[24m    <input name="url" value="WebGoat/" type="text"/>[0m
+          113┆ [1m[24m    <input name="submit" value="Submit" type="SUBMIT"/>[0m
+          114┆ [1m[24m</form>[0m
+                                                                                    
+  [36m[22m[24m  src/main/resources/lessons/insecurelogin/html/InsecureLogin.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           18┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="task"[0m
+           19┆ [1m[24m      method="POST"[0m
+           20┆ [1m[24m      th:action="@{/InsecureLogin/task}">[0m
+           21┆ [1m[24m[0m
+           22┆ [1m[24m    <button onclick="javascript:submit_secret_credentials();return false;">Log in</button>[0m
+           23┆ [1m[24m[0m
+           24┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           26┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="task"[0m
+           27┆ [1m[24m      method="POST"[0m
+           28┆ [1m[24m      th:action="@{/InsecureLogin/task}">[0m
+           29┆ [1m[24m[0m
+           30┆ [1m[24m    <input type="text" value="" name="username" placeholder="username"/>[0m
+           31┆ [1m[24m    <input type="password" value="" name="password" placeholder="password" />[0m
+           32┆ [1m[24m    <input type="submit" value="Submit" />[0m
+           33┆ [1m[24m[0m
+           34┆ [1m[24m</form>[0m
+                                                                                
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_decode.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+            8┆                                                                                                          
+  [1m[24meyJhbGciOiJIUzI1NiJ9.ew0KICAiYXV0aG9yaXRpZXMiIDogWyAiUk9MRV9BRE1JTiIsICJST0xFX1VTRVIiIF0sDQogICJjbGllbnRfaWQiID
+  ogIm15LWNsaWVudC13aXRoLXNlY3JldCIsDQogIC ... [0m                                                                      
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                   
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_libraries.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+           28┆  ...                                                                                                     
+  [1m[24meyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+  .[0mNFvYpuwbF6YWbPyaNAGEPw9wbhiQSovvSrD ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+           40┆  ...                                                                                                     
+  [1m[24meyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
+  [0mNFvYpuwbF6YWbPyaNAGEPw9wbhiQSovvSrD8 ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+           56┆ var token =                                                                                              
+  "[1m[24meyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+  .[0m";                                                                                                                
+                                                                                              
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_libraries_assignment.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+            7┆                                                                                                          
+  [1m[24meyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlciI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI
+  6MTUxNjIzOTAyMn0.[0m                                                                                                  
+                                                                                               
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_libraries_assignment2.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+            7┆                                                                                                          
+  [1m[24meyJhbGciOiJIUzI1NiJ9.ew0KICAiYWRtaW4iIDogdHJ1ZSwNCiAgImlhdCIgOiAxNTE2MjM5MDIyLA0KICAic3ViIiA6ICIxMjM0NTY3ODkwIi
+  wNCiAgInVzZXIiIDogIkpvaG4gRG9lIg0KfQ.[0 ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                            
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_libraries_solution.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+            7┆                                                                                                          
+  [1m[24meyJhbGciOiJIUzI1NiJ9.ew0KICAiYWRtaW4iIDogdHJ1ZSwNCiAgImlhdCIgOiAxNTE2MjM5MDIyLA0KICAic3ViIiA6ICIxMjM0NTY3ODkwIi
+  wNCiAgInVzZXIiIDogIkpvaG4gRG9lIg0KfQ.[0 ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                          
+  [36m[22m[24m  src/main/resources/lessons/jwt/documentation/JWT_signing_solution.adoc [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+           35┆  ...                                                                                                     
+  [1m[24meyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDgxMjg1NjYsImFkbWluIjoiZmFsc2UiLCJ1c2VyIjoiVG9tIn0.[0mrTSX6PSXqUoGUvQQDBiqX0r
+  e2BSt7s2-X6FPf34Qly9SMpqIUSP8jykedJbjOB ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+           77┆                                                                                                          
+  [1m[24meyJhbGciOiJub25lIn0.ew0KICAiYWRtaW4iIDogInRydWUiLA0KICAiaWF0IiA6IDE2MDgxMjg1NjYsDQogICJ1c2VyIiA6ICJUb20iDQp9[0m
+                                                                
+  [36m[22m[24m  src/main/resources/lessons/jwt/html/JWT.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           20┆ [1m[24m<form id="decode" class="attack-form" method="POST" name="form" th:action="@{/JWT/decode}">[0m
+           21┆ [1m[24m    <div class="assignment-success"><i class="fa fa-2 fa-check hidden"                            
+  aria-hidden="true"></i></div>[0m                                                                                      
+           22┆ [1m[24m    <br>[0m
+           23┆ [1m[24m    <div class="row">[0m
+           24┆ [1m[24m        <div class="col-lg-10">[0m
+           25┆ [1m[24m                <span>[0m
+           26┆ [1m[24m                    <span>[0m
+           27┆ [1m[24m                         Username:[0m
+           28┆ [1m[24m                    </span>[0m
+           29┆ [1m[24m                <input type="text" name="jwt-encode-user">[0m
+             [hid 6 additional lines, adjust with --max-lines-per-finding] 
+          125┆ [1m[24m<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"[0m
+          126┆ [1m[24m      method="POST" name="form"[0m
+          127┆ [1m[24m      th:action="@{/JWT/quiz}"[0m
+          128┆ [1m[24m      role="form">[0m
+          129┆ [1m[24m    <div id="q_container"></div>[0m
+          130┆ [1m[24m    <br/>[0m
+          131┆ [1m[24m    <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>[0m
+          132┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          158┆ [1m[24m<form class="attack-form" method="POST" name="form" th:action="@{/JWT/secret}">[0m
+          159┆ [1m[24m    <div class="form-group">[0m
+          160┆ [1m[24m        <div class="input-group">[0m
+          161┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+          162┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+          163┆ [1m[24m            <input type="text" class="form-control" id="flag" name="token"[0m
+          164┆ [1m[24m                   placeholder="XXX.YYY.ZZZ"/>[0m
+          165┆ [1m[24m        </div>[0m
+          166┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+          167┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit token</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+          323┆  ...                                                                                                     
+  [1m[24meyJ0eXAiOiJKV1QiLCJqa3UiOiJodHRwczovL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tL3dlYmdvYXQvLndlbGwta25vd24
+  vandrcy5qc29uIiwiYWxnIjoiUlMyNTYifQ.ewog ... [0m                                                                      
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+          389┆  ...                                                                                                     
+  [1m[24meyJ0eXAiOiJKV1QiLCJraWQiOiJ3ZWJnb2F0X2tleSIsImFsZyI6IkhTMjU2In0.ewogICJpc3MiOiAiV2ViR29hdCBUb2tlbiBCdWlsZGVyIiw
+  KICAiaWF0IjogMTUyNDIxMDkwNCwKICAiZXhwIjo ... [0m                                                                      
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                  
+  [36m[22m[24m  src/main/resources/lessons/jwt/images/logs.txt [0m
+       [1m[24mgeneric.secrets.security.detected-jwt-token.detected-jwt-token[0m
+          JWT token detected                                                   
+          Details: https://sg.run/05N5                                         
+                                                                               
+            2┆  ...                                                                                                     
+  [1m[24meyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1MjYxMzE0MTEsImV4cCI6MTUyNjIxNzgxMSwiYWRtaW4iOiJmYWxzZSIsInVzZXIiOiJUb20ifQ.[0m
+  DCoaq9zQkyDH25EcVWKcdbyVfUL4c9D4jRvsqOq ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                      
+  [36m[22m[24m  src/main/resources/lessons/lessontemplate/html/LessonTemplate.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           48┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           49┆ [1m[24m      method="POST" name="form"[0m
+           50┆ [1m[24m      th:action="@{/lesson-template/sample-attack}">[0m
+           51┆ [1m[24m    <table>[0m
+           52┆ [1m[24m        <tr>[0m
+           53┆ [1m[24m            <td>two random params</td>[0m
+           54┆ [1m[24m            <td>parameter 1:<input name="param1" value="" type="TEXT" /></td>[0m
+           55┆ [1m[24m            <td>parameter 2:<input name="param2" value="" type="TEXT" /></td>[0m
+           56┆ [1m[24m            <td>[0m
+           57┆ [1m[24m                <input name="submit" value="Submit" type="SUBMIT"/>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                            
+  [36m[22m[24m  src/main/resources/lessons/logging/html/LogSpoofing.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           17┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="task"[0m
+           18┆ [1m[24m      method="POST"[0m
+           19┆ [1m[24m      th:action="@{/LogSpoofing/log-spoofing}">[0m
+           20┆ [1m[24m[0m
+           21┆ [1m[24m    <input type="text" value="" name="username" placeholder="username"/>[0m
+           22┆ [1m[24m    <input type="password" value="" name="password" placeholder="password"/>[0m
+           23┆ [1m[24m    <input type="submit" value="Submit"/>[0m
+           24┆ [1m[24m[0m
+           25┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           39┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" name="task"[0m
+           40┆ [1m[24m      method="POST"[0m
+           41┆ [1m[24m      th:action="@{/LogSpoofing/log-bleeding}">[0m
+           42┆ [1m[24m[0m
+           43┆ [1m[24m    <input type="text" value="" name="username" placeholder="username"/>[0m
+           44┆ [1m[24m    <input type="password" value="" name="password" placeholder="password"/>[0m
+           45┆ [1m[24m    <input type="submit" value="Submit"/>[0m
+           46┆ [1m[24m[0m
+           47┆ [1m[24m</form>[0m
+                                                                                    
+  [36m[22m[24m  src/main/resources/lessons/missingac/html/MissingFunctionAC.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           53┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           54┆ [1m[24m      method="POST" name="form"[0m
+           55┆ [1m[24m      th:action="@{/access-control/hidden-menu}">[0m
+           56┆ [1m[24m[0m
+           57┆ [1m[24m    <p>Hidden item 1 <input name="hiddenMenu1" value="" type="TEXT"/></p>[0m
+           58┆ [1m[24m    <p>Hidden item 2 <input name="hiddenMenu2" value="" type="TEXT"/></p>[0m
+           59┆ [1m[24m    <br/>[0m
+           60┆ [1m[24m    <input name="submit" value="Submit" type="SUBMIT"/>[0m
+           61┆ [1m[24m[0m
+           62┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           76┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           77┆ [1m[24m      method="POST" name="form"[0m
+           78┆ [1m[24m      th:action="@{/access-control/user-hash}">[0m
+           79┆ [1m[24m[0m
+           80┆ [1m[24m    <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>[0m
+           81┆ [1m[24m    <br/>[0m
+           82┆ [1m[24m    <input name="submit" value="Submit" type="SUBMIT"/>[0m
+           83┆ [1m[24m[0m
+           84┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           98┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           99┆ [1m[24m      method="POST" name="form"[0m
+          100┆ [1m[24m      th:action="@{/access-control/user-hash-fix}">[0m
+          101┆ [1m[24m[0m
+          102┆ [1m[24m    <p>Your Hash: <input name="userHash" value="" type="TEXT"/></p>[0m
+          103┆ [1m[24m    <br/>[0m
+          104┆ [1m[24m    <input name="submit" value="Submit" type="SUBMIT"/>[0m
+          105┆ [1m[24m[0m
+          106┆ [1m[24m</form>[0m
+                                                                                  
+  [36m[22m[24m  src/main/resources/lessons/openredirect/html/OpenRedirect.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           18┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/OpenRedirect/task1}">[0m
+           19┆ [1m[24m  <label for="t1url">Return URL</label>[0m
+           20┆ [1m[24m  <input id="t1url" name="url" placeholder="https://evil.test" value="/home" size="60" />[0m
+           21┆ [1m[24m  <button type="submit">Simulate Redirect</button>[0m
+           22┆ [1m[24m  <div class="tiny-hint">Provide an absolute external URL using http or https.</div>[0m
+           23┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           33┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/OpenRedirect/task2}">[0m
+           34┆ [1m[24m  <label for="t2url">Return URL (substring filter active)</label>[0m
+           35┆ [1m[24m  <input id="t2url" name="url" placeholder="https://webgoat.org.evil.com" size="60" />[0m
+           36┆ [1m[24m  <button type="submit">Simulate Redirect</button>[0m
+           37┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           48┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/OpenRedirect/task3}">[0m
+           49┆ [1m[24m  <label for="t3target">Target URL</label>[0m
+           50┆ [1m[24m  <input id="t3target" name="target" placeholder="https://webgoat.local@evil.com" size="55" />[0m
+           51┆ [1m[24m  <label for="t3token">Tracking Token</label>[0m
+           52┆ [1m[24m  <input id="t3token" name="token" value="abc123" size="15" />[0m
+           53┆ [1m[24m  <button type="submit">Simulate Redirect</button>[0m
+           54┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           64┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/OpenRedirect/task4}">[0m
+           65┆ [1m[24m  <label for="t4target">Target URL (double-encoded)</label>[0m
+           66┆ [1m[24m  <input[0m
+           67┆ [1m[24m    id="t4target"[0m
+           68┆ [1m[24m    name="target"[0m
+           69┆ [1m[24m    placeholder="Double-encoded target URL (e.g. https://example%2540attacker.test)"[0m
+           70┆ [1m[24m    size="60"[0m
+           71┆ [1m[24m  />[0m
+           72┆ [1m[24m  <button id="task4-autofill" type="button" data-sample="https://webgoat.local%2540evil.com">[0m
+           73┆ [1m[24m    Autofill sample[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+          100┆ [1m[24m<form id="quiz-form" class="attack-form" method="POST" th:action="@{/OpenRedirect/quiz}"          
+  role="form">[0m                                                                                                       
+          101┆ [1m[24m  <div id="q_container"></div>[0m
+          102┆ [1m[24m  <br />[0m
+          103┆ [1m[24m  <input name="Quiz_solutions" value="Submit answers" type="SUBMIT" />[0m
+          104┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          116┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/OpenRedirect/mitigation}">[0m
+          117┆ [1m[24m  <label for="mitigationUrl">External URL to test mitigation</label>[0m
+          118┆ [1m[24m  <input id="mitigationUrl" name="url" placeholder="https://evil.test" size="60" />[0m
+          119┆ [1m[24m  <button type="submit">Test Mitigation</button>[0m
+          120┆ [1m[24m  <div class="tiny-hint">Try an absolute external URL (http/https) that is NOT an internal        
+  host.</div>[0m                                                                                                        
+          121┆ [1m[24m</form>[0m
+                                                                                    
+  [36m[22m[24m  src/main/resources/lessons/passwordreset/html/PasswordReset.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+          144┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          145┆ [1m[24m      method="POST" name="form"[0m
+          146┆ [1m[24m      action="PasswordReset/SecurityQuestions">[0m
+          147┆ [1m[24m    <select name="question">[0m
+          148┆ [1m[24m        <option>What is your favorite animal?</option>[0m
+          149┆ [1m[24m        <option>In what year was your mother born?</option>[0m
+          150┆ [1m[24m        <option>What was the time you were born?</option>[0m
+          151┆ [1m[24m        <option>What is the name of the person you first kissed?</option>[0m
+          152┆ [1m[24m        <option>What was the house number and street name you lived in as a child?</option>[0m
+          153┆ [1m[24m        <option>In what town or city was your first full time job?</option>[0m
+             [hid 11 additional lines, adjust with --max-lines-per-finding] 
+                                                                                          
+  [36m[22m[24m  src/main/resources/lessons/passwordreset/templates/password_reset.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           12┆ [1m[24m<form role="form" method="POST" th:action="@{/PasswordReset/reset/change-password}"               
+  th:object="${form}" novalidate="novalidate">[0m                                                                       
+           13┆ [1m[24m    <h2 class="sign_up_title">Reset your password</h2>[0m
+           14┆ [1m[24m        <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">[0m
+           15┆ [1m[24m            <input type="hidden" name="resetLink" th:field="*{resetLink}" />[0m
+           16┆ [1m[24m            <label for="password" class="control-label" th:text="#{password}">Password</label>[0m
+           17┆ [1m[24m            <input type="password" class="form-control" id="password" placeholder="Password"[0m
+           18┆ [1m[24m                   name='password' th:value="*{password}"/>[0m
+           19┆ [1m[24m            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password       
+  error</span>[0m                                                                                                       
+           20┆ [1m[24m        </div>[0m
+           21┆ [1m[24m    <div class="row">[0m
+             [hid 5 additional lines, adjust with --max-lines-per-finding] 
+                                                                                    
+  [36m[22m[24m  src/main/resources/lessons/pathtraversal/html/PathTraversal.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+          192┆ [1m[24m<form class="attack-form" method="POST" name="form" action="PathTraversal/random">[0m
+          193┆ [1m[24m    <div class="assignment-success"><i class="fa fa-2 fa-check hidden"                            
+  aria-hidden="true"></i></div>[0m                                                                                      
+          194┆ [1m[24m    <div class="form-group">[0m
+          195┆ [1m[24m        <div class="input-group">[0m
+          196┆ [1m[24m            <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"[0m
+          197┆ [1m[24m                                              style="font-size:20px"></i></div>[0m
+          198┆ [1m[24m            <input type="text" class="form-control" id="pathTraversalSecret" name="secret"/>[0m
+          199┆ [1m[24m        </div>[0m
+          200┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+          201┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit secret</button>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                                        
+  [36m[22m[24m  src/main/resources/lessons/securepasswords/html/SecurePasswords.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           21┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           22┆ [1m[24m      method="POST" name="form"[0m
+           23┆ [1m[24m      th:action="@{/SecurePasswords/assignment}"[0m
+           24┆ [1m[24m      autocomplete="off">[0m
+           25┆ [1m[24m[0m
+           26┆ [1m[24m    <div class="input-group input-group">[0m
+           27┆ [1m[24m        <input id="myInput" name="password" value="" type="password" class="form-control"[0m
+           28┆ [1m[24m               placeholder="Enter a secure password..."[0m
+           29┆ [1m[24m               aria-describedby="password-label">[0m
+           30┆ [1m[24m        <span class="input-group-addon"><input type="checkbox" onclick="javascript:myFunction()"/>
+  Show password</span>[0m                                                                                               
+             [hid 5 additional lines, adjust with --max-lines-per-finding] 
+                                                                                                          
+  [36m[22m[24m  src/main/resources/lessons/securitymisconfiguration/html/SecurityMisconfiguration.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           18┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task1}">[0m
+           19┆ [1m[24m  <div class="form-group">[0m
+           20┆ [1m[24m    <label for="username">Username</label>[0m
+           21┆ [1m[24m    <input class="form-control" id="username" name="username" placeholder="Try the default admin  
+  username" autocomplete="username" />[0m                                                                               
+           22┆ [1m[24m  </div>[0m
+           23┆ [1m[24m  <div class="form-group">[0m
+           24┆ [1m[24m    <label for="password">Password</label>[0m
+           25┆ [1m[24m    <input class="form-control" id="password" name="password" type="password" placeholder="And the
+  matching default password" autocomplete="current-pas ... [0m                                                          
+           26┆ [1m[24m  </div>[0m
+           27┆ [1m[24m  <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Attempt        
+  login</button>[0m                                                                                                     
+            [shortened a long line from output, adjust with --max-chars-per-line]
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+           47┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task2}"            
+  style="margin-top:15px;">[0m                                                                                          
+           48┆ [1m[24m  <div class="form-group">[0m
+           49┆ [1m[24m    <label for="token">Leaked token</label>[0m
+           50┆ [1m[24m    <input class="form-control" id="token" name="token" placeholder="Paste the token from the     
+  stack trace" autocomplete="off" />[0m                                                                                 
+           51┆ [1m[24m  </div>[0m
+           52┆ [1m[24m  <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Submit         
+  token</button>[0m                                                                                                     
+           53┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+           72┆ [1m[24m<form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task3}"            
+  style="margin-top:15px;">[0m                                                                                          
+           73┆ [1m[24m  <div class="form-group">[0m
+           74┆ [1m[24m    <label for="apiKey">System API key</label>[0m
+           75┆ [1m[24m    <input class="form-control" id="apiKey" name="apiKey" placeholder="Paste the leaked key"      
+  autocomplete="off" />[0m                                                                                              
+           76┆ [1m[24m  </div>[0m
+           77┆ [1m[24m  <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Submit         
+  key</button>[0m                                                                                                       
+           78┆ [1m[24m</form>[0m
+                                                                                
+  [36m[22m[24m  src/main/resources/lessons/spoofcookie/html/SpoofCookie.html [0m
+       [1m[24mhtml.security.audit.missing-integrity.missing-integrity[0m                             
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'        
+          attribute allows for the browser to verify that externally hosted files (for example from a
+          CDN) are delivered without unexpected manipulation. Without this attribute, if an attacker 
+          can modify the externally hosted resource, this could lead to XSS and other types of       
+          attacks. To prevent this, include the base64-encoded cryptographic hash of the resource    
+          (file) you’re telling the browser to fetch in the 'integrity' attribute for all externally 
+          hosted files.                                                                              
+          Details: https://sg.run/krXA                                                               
+                                                                                                     
+            5┆ [1m[24m<link rel="stylesheet" type="text/css"[0m
+            6┆ [1m[24m    href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css"  
+  />[0m                                                                                     
+                                                                                  
+  [36m[22m[24m  src/main/resources/lessons/sqlinjection/html/SqlInjection.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           16┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           17┆ [1m[24m      method="POST" name="form"[0m
+           18┆ [1m[24m      th:action="@{/SqlInjection/attack2}"[0m
+           19┆ [1m[24m      autocomplete="off">[0m
+           20┆ [1m[24m    <table>[0m
+           21┆ [1m[24m        <tr>[0m
+           22┆ [1m[24m            <td><label>SQL query</label></td>[0m
+           23┆ [1m[24m            <td width="100%"><input class="form-control" name="query" value="" type="TEXT"        
+  placeholder="SQL query"/></td>[0m                                                                                     
+           24┆ [1m[24m        </tr>[0m
+           25┆ [1m[24m        <tr>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+           40┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           41┆ [1m[24m      method="POST" name="form"[0m
+           42┆ [1m[24m      th:action="@{/SqlInjection/attack3}"[0m
+           43┆ [1m[24m      autocomplete="off">[0m
+           44┆ [1m[24m    <table>[0m
+           45┆ [1m[24m        <tr>[0m
+           46┆ [1m[24m            <td><label>SQL query</label></td>[0m
+           47┆ [1m[24m            <td width="100%"><input class="form-control" name="query" value="" type="TEXT"        
+  placeholder="SQL query"/></td>[0m                                                                                     
+           48┆ [1m[24m        </tr>[0m
+           49┆ [1m[24m        <tr>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+           64┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           65┆ [1m[24m      method="POST" name="form"[0m
+           66┆ [1m[24m      th:action="@{/SqlInjection/attack4}"[0m
+           67┆ [1m[24m      autocomplete="off">[0m
+           68┆ [1m[24m    <table>[0m
+           69┆ [1m[24m        <tr>[0m
+           70┆ [1m[24m            <td><label>SQL query</label></td>[0m
+           71┆ [1m[24m            <td width="100%"><input class="form-control" name="query" value="" type="TEXT"        
+  placeholder="SQL query"/></td>[0m                                                                                     
+           72┆ [1m[24m        </tr>[0m
+           73┆ [1m[24m        <tr>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+           88┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           89┆ [1m[24m      method="POST" name="form"[0m
+           90┆ [1m[24m      th:action="@{/SqlInjection/attack5}"[0m
+           91┆ [1m[24m      autocomplete="off">[0m
+           92┆ [1m[24m    <table>[0m
+           93┆ [1m[24m        <tr>[0m
+           94┆ [1m[24m            <td><label>SQL query</label></td>[0m
+           95┆ [1m[24m            <td width="100%"><input class="form-control" name="query" value="" type="TEXT"        
+  placeholder="SQL query"/></td>[0m                                                                                     
+           96┆ [1m[24m        </tr>[0m
+           97┆ [1m[24m        <tr>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+          189┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          190┆ [1m[24m      method="POST" name="form"[0m
+          191┆ [1m[24m      th:action="@{/SqlInjection/assignment5b}">[0m
+          192┆ [1m[24m    <table>[0m
+          193┆ [1m[24m        <tr>[0m
+          194┆ [1m[24m            <td>Login_Count:</td>[0m
+          195┆ [1m[24m            <td><input name="login_count" type="text" required="true"/></td>[0m
+          196┆ [1m[24m        </tr>[0m
+          197┆ [1m[24m        <tr>[0m
+          198┆ [1m[24m            <td>User_Id:</td>[0m
+             [hid 9 additional lines, adjust with --max-lines-per-finding] 
+          217┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          218┆ [1m[24m      method="POST" name="form"[0m
+          219┆ [1m[24m      th:action="@{/SqlInjection/attack8}"[0m
+          220┆ [1m[24m      autocomplete="off">[0m
+          221┆ [1m[24m    <table>[0m
+          222┆ [1m[24m        <tr>[0m
+          223┆ [1m[24m            <td><label>Employee Name:</label></td>[0m
+          224┆ [1m[24m            <td><input name="name" value="" type="TEXT" placeholder="Lastname"/></td>[0m
+          225┆ [1m[24m        </tr>[0m
+          226┆ [1m[24m        <tr>[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+          245┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          246┆ [1m[24m      method="POST" name="form"[0m
+          247┆ [1m[24m      th:action="@{/SqlInjection/attack9}"[0m
+          248┆ [1m[24m      autocomplete="off">[0m
+          249┆ [1m[24m    <table>[0m
+          250┆ [1m[24m        <tr>[0m
+          251┆ [1m[24m            <td><label>Employee Name:</label></td>[0m
+          252┆ [1m[24m            <td><input name="name" value="" type="TEXT" placeholder="Lastname"/></td>[0m
+          253┆ [1m[24m        </tr>[0m
+          254┆ [1m[24m        <tr>[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+          274┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          275┆ [1m[24m      method="POST" name="form"[0m
+          276┆ [1m[24m      th:action="@{/SqlInjection/attack10}"[0m
+          277┆ [1m[24m      autocomplete="off">[0m
+          278┆ [1m[24m    <table>[0m
+          279┆ [1m[24m        <tr>[0m
+          280┆ [1m[24m            <td><label>Action contains:</label></td>[0m
+          281┆ [1m[24m            <td><input name="action_string" value="" type="TEXT" placeholder="Enter search        
+  string"/></td>[0m                                                                                                     
+          282┆ [1m[24m        </tr>[0m
+          283┆ [1m[24m        <tr>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                                          
+  [36m[22m[24m  src/main/resources/lessons/sqlinjection/html/SqlInjectionAdvanced.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           21┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           22┆ [1m[24m      method="POST" name="form"[0m
+           23┆ [1m[24m      th:action="@{/SqlInjectionAdvanced/attack6a}">[0m
+           24┆ [1m[24m    <table>[0m
+           25┆ [1m[24m        <tr>[0m
+           26┆ [1m[24m            <td>Name:</td>[0m
+           27┆ [1m[24m            <td><input name="userid_6a" value="" type="TEXT"/></td>[0m
+           28┆ [1m[24m            <td><input[0m
+           29┆ [1m[24m                    name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>[0m
+           30┆ [1m[24m            <td></td>[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+           34┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           35┆ [1m[24m      method="POST" name="form"[0m
+           36┆ [1m[24m      th:action="@{/SqlInjectionAdvanced/attack6b}">[0m
+           37┆ [1m[24m    <table>[0m
+           38┆ [1m[24m        <tr>[0m
+           39┆ [1m[24m            <td>Password:</td>[0m
+           40┆ [1m[24m            <td><input name="userid_6b" value="" type="TEXT"/></td>[0m
+           41┆ [1m[24m            <td><input[0m
+           42┆ [1m[24m                    name="Check Dave's Password:" value="Check Password" type="SUBMIT"/></td>[0m
+           43┆ [1m[24m            <td></td>[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+          169┆ [1m[24m<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"[0m
+          170┆ [1m[24m      method="POST" name="form"[0m
+          171┆ [1m[24m      th:action="@{/SqlInjectionAdvanced/quiz}"[0m
+          172┆ [1m[24m      role="form">[0m
+          173┆ [1m[24m    <div id="q_container"></div>[0m
+          174┆ [1m[24m    <br />[0m
+          175┆ [1m[24m<input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>[0m
+          176┆ [1m[24m</form>[0m
+                                                                                             
+  [36m[22m[24m  src/main/resources/lessons/sqlinjection/html/SqlInjectionMitigations.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           26┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN" method="POST" name="form"                      
+  th:action="@{/SqlInjectionMitigations/attack10a}">[0m                                                                 
+           27┆ [1m[24m    <div>[0m
+           28┆ [1m[24m        <p>Connection conn = DriverManager.<input type="text" name="field1" id="field1" />(DBURL, 
+  DBUSER, DBPW);</p>[0m                                                                                                 
+           29┆ [1m[24m        <p><input type="text" name="field2" id="field2" /> = conn.<input type="text" name="field3"
+  id="field3" />("SELECT status FROM users WHERE name= ... [0m                                                          
+           30┆ [1m[24m        <p><input type="text" name="field6" id="field6" />;</p>[0m
+           31┆ [1m[24m        <p><input type="text" name="field7" id="field7" />;</p>[0m
+           32┆ [1m[24m    </div>[0m
+           33┆ [1m[24m    <div class="input-group" style="margin-top: 10px">[0m
+           34┆ [1m[24m        <button type="submit" class="btn btn-primary">Submit</button>[0m
+           35┆ [1m[24m    </div>[0m
+            [shortened a long line from output, adjust with --max-chars-per-line]
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+           45┆ [1m[24m<form id="codesubmit" style="height: 100%; min-height: 300px;" class="attack-form"                
+  accept-charset="UNKNOWN" method="POST" name="form" th:action="@{/Sql ... [0m                                          
+           46┆ [1m[24m    <div>[0m
+           47┆ [1m[24m        <div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; height: 
+  300px;" name="editor"></div>[0m                                                                                       
+           48┆ [1m[24m        <script th:src="@{/js/libs/ace.js}" type="text/javascript" charset="utf-8"></script>[0m
+           49┆ [1m[24m        <script th:src="@{/lesson_js/assignment10b.js}" type="text/javascript"                    
+  charset="utf-8"></script>[0m                                                                                          
+           50┆ [1m[24m    </div>[0m
+           51┆ [1m[24m    <input type="hidden" name="editor"/>[0m
+           52┆ [1m[24m    <div class="input-group" style="position: absolute; top: 310px;">[0m
+           53┆ [1m[24m        <button class="btn btn-primary" type="submit">Submit</button>[0m
+           54┆ [1m[24m    </div>[0m
+            [shortened a long line from output, adjust with --max-chars-per-line]
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+           73┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           74┆ [1m[24m      method="POST" name="form"[0m
+           75┆ [1m[24m      th:action="@{/SqlOnlyInputValidation/attack}"[0m
+           76┆ [1m[24m      enctype="application/json;charset=UTF-8">[0m
+           77┆ [1m[24m    <table>[0m
+           78┆ [1m[24m        <tr>[0m
+           79┆ [1m[24m            <td>Name:</td>[0m
+           80┆ [1m[24m            <td><input name="userid_sql_only_input_validation" value="" type="TEXT"/></td>[0m
+           81┆ [1m[24m            <td><input[0m
+           82┆ [1m[24m                    name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+           96┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           97┆ [1m[24m      method="POST" name="form"[0m
+           98┆ [1m[24m      th:action="@{/SqlOnlyInputValidationOnKeywords/attack}"[0m
+           99┆ [1m[24m      enctype="application/json;charset=UTF-8">[0m
+          100┆ [1m[24m    <table>[0m
+          101┆ [1m[24m        <tr>[0m
+          102┆ [1m[24m            <td>Name:</td>[0m
+          103┆ [1m[24m            <td><input name="userid_sql_only_input_validation_on_keywords" value=""               
+  type="TEXT"/></td>[0m                                                                                                 
+          104┆ [1m[24m            <td><input[0m
+          105┆ [1m[24m                    name="Get Account Info" value="Get Account Info" type="SUBMIT"/></td>[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+          176┆ [1m[24m<form class="attack-form" method="POST" name="form"                                               
+  th:action="@{/SqlInjectionMitigations/attack12a}">[0m                                                                 
+          177┆ [1m[24m    <div class="form-group">[0m
+          178┆ [1m[24m        <div class="input-group">[0m
+          179┆ [1m[24m            <div class="input-group-addon">IP address webgoat-prd server:</div>[0m
+          180┆ [1m[24m            <input type="text" class="form-control" id="ip" name="ip"[0m
+          181┆ [1m[24m                   placeholder="192.1.0.12"/>[0m
+          182┆ [1m[24m        </div>[0m
+          183┆ [1m[24m        <div class="input-group" style="margin-top: 10px">[0m
+          184┆ [1m[24m            <button type="submit" class="btn btn-primary">Submit</button>[0m
+          185┆ [1m[24m        </div>[0m
+             [hid 2 additional lines, adjust with --max-lines-per-finding] 
+                                                                  
+  [36m[22m[24m  src/main/resources/lessons/ssrf/html/SSRF.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           13┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           14┆ [1m[24m      method="POST" name="form"[0m
+           15┆ [1m[24m      th:action="@{/SSRF/task1}">[0m
+           16┆ [1m[24m    <table>[0m
+           17┆ [1m[24m        <tr>[0m
+           18┆ [1m[24m            <td><input type="hidden" id="url1" name="url" value="images/tom.png"/></td>[0m
+           19┆ [1m[24m[0m
+           20┆ [1m[24m            <td><input[0m
+           21┆ [1m[24m                    name="Steal the Cheese" value="Steal the Cheese" type="SUBMIT"/></td>[0m
+           22┆ [1m[24m            <td></td>[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+           35┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           36┆ [1m[24m      method="POST" name="form"[0m
+           37┆ [1m[24m      th:action="@{/SSRF/task2}">[0m
+           38┆ [1m[24m    <table>[0m
+           39┆ [1m[24m        <tr>[0m
+           40┆ [1m[24m            <td><input type="hidden" id="url2" name="url" value="images/cat.png"/></td>[0m
+           41┆ [1m[24m[0m
+           42┆ [1m[24m            <td><input[0m
+           43┆ [1m[24m                    name="try this" value="try this" type="SUBMIT"/></td>[0m
+           44┆ [1m[24m            <td></td>[0m
+             [hid 3 additional lines, adjust with --max-lines-per-finding] 
+                                                                                                  
+  [36m[22m[24m  src/main/resources/lessons/vulnerablecomponents/html/VulnerableComponents.html [0m
+       [1m[24mhtml.security.audit.missing-integrity.missing-integrity[0m                             
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'        
+          attribute allows for the browser to verify that externally hosted files (for example from a
+          CDN) are delivered without unexpected manipulation. Without this attribute, if an attacker 
+          can modify the externally hosted resource, this could lead to XSS and other types of       
+          attacks. To prevent this, include the base64-encoded cryptographic hash of the resource    
+          (file) you’re telling the browser to fetch in the 'integrity' attribute for all externally 
+          hosted files.                                                                              
+          Details: https://sg.run/krXA                                                               
+                                                                                                     
+            5┆ [1m[24m<link rel="stylesheet" type="text/css"                                                            
+  href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />[0m                                                
+            ⋮┆----------------------------------------
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+          104┆ [1m[24m<form accept-charset="UNKNOWN" method="POST" name="form"[0m
+          105┆ [1m[24m                            
+  action="#attack/307/100">[0m                    
+          106┆ [1m[24m          
+  <table>[0m                    
+          107┆ [1m[24m       
+  <tr>[0m                    
+          108┆ [1m[24m                    <td>Enter the contact's xml    
+  representation:</td>[0m                                                
+          109┆ [1m[24m                    <td><textarea name="payload" value="" type="TEXT" rows="15"
+  cols="60"/></td>[0m                                                                                
+          110┆ [1m[24m                    <td><input name="SUBMIT" value="Go!"    
+  type="SUBMIT"/></td>[0m                                                         
+          111┆ [1m[24m        
+  </tr>[0m                    
+          112┆ [1m[24m           
+  </table>[0m                    
+          113┆ [1m[24m</form>[0m
+                                                                                                
+  [36m[22m[24m  src/main/resources/lessons/webwolfintroduction/html/WebWolfIntroduction.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           19┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:150px"[0m
+           20┆ [1m[24m      method="POST" name="form"[0m
+           21┆ [1m[24m      th:action="@{/WebWolf/mail}">[0m
+           22┆ [1m[24m    <div class="container-fluid">[0m
+           23┆ [1m[24m        <div class="row">[0m
+           24┆ [1m[24m            <div class="col-md-4">[0m
+           25┆ [1m[24m                <div class="input-group">[0m
+           26┆ [1m[24m                    <input type="text" class="form-control"[0m
+           27┆ [1m[24m                           placeholder="Type in your unique code"[0m
+           28┆ [1m[24m                           name='uniqueCode'/>[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+           40┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:-50px"[0m
+           41┆ [1m[24m      method="POST" name="secondform"[0m
+           42┆ [1m[24m      th:action="@{/WebWolf/mail/send}">[0m
+           43┆ [1m[24m    <div class="container-fluid">[0m
+           44┆ [1m[24m        <div class="row">[0m
+           45┆ [1m[24m            <div class="col-md-4">[0m
+           46┆ [1m[24m                <div class="form-group input-group">[0m
+           47┆ [1m[24m  <span class="input-group-addon">[0m
+           48┆ [1m[24m    @[0m
+           49┆ [1m[24m  </span>[0m
+             [hid 10 additional lines, adjust with --max-lines-per-finding] 
+           77┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           78┆ [1m[24m      method="POST" name="form"[0m
+           79┆ [1m[24m      action="WebWolf/landing">[0m
+           80┆ [1m[24m    <div class="container-fluid">[0m
+           81┆ [1m[24m        <div class="row">[0m
+           82┆ [1m[24m            <div class="col-md-4">[0m
+           83┆ [1m[24m                <div class="input-group">[0m
+           84┆ [1m[24m                    <input type="text" class="form-control"[0m
+           85┆ [1m[24m                           placeholder="Type in your unique code"[0m
+           86┆ [1m[24m                           name='uniqueCode'/>[0m
+             [hid 8 additional lines, adjust with --max-lines-per-finding] 
+                                                                               
+  [36m[22m[24m  src/main/resources/lessons/xss/html/CrossSiteScripting.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           13┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           14┆ [1m[24m      method="POST"           
+  name="form"[0m                                    
+           15┆ [1m[24m                                                
+  th:action="@{/CrossSiteScripting/attack1}">[0m                      
+           16┆ [1m[24m          
+  <table>[0m                    
+           17┆ [1m[24m       
+  <tr>[0m                    
+           18┆ [1m[24m                    <td><input type="checkbox" name="checkboxAttack1"> The cookies are the same 
+  on each tab </td>[0m                                                                                                
+           19┆ [1m[24m             
+  <td><input[0m                    
+           20┆ [1m[24m                                    name="answer"   
+  value="Submit" type="SUBMIT"/></td>[0m                                  
+           21┆ [1m[24m            
+  <td></td>[0m                    
+           22┆ [1m[24m        
+  </tr>[0m                    
+             [hid 2 additional lines, adjust with --max-lines-per-finding] 
+          134┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          135┆ [1m[24m      method="POST"                   
+  name="DOMTestRoute"[0m                                    
+          136┆ [1m[24m                                                 
+  th:action="@{/CrossSiteScripting/attack6a}">[0m                      
+          137┆ [1m[24m    <input name="DOMTestRoute" value="" type="TEXT"  
+  />[0m                                                                    
+          138┆ [1m[24m    <input name="SubmitTestRoute" value="Submit"               
+  type="SUBMIT"/>[0m                                                                 
+          139┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          149┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+          150┆ [1m[24m      method="POST"                  
+  name="DOMFollowUp"[0m                                    
+          151┆ [1m[24m                                                      
+  th:action="@{/CrossSiteScripting/dom-follow-up}">[0m                      
+          152┆ [1m[24m    <input name="successMessage" value="" type="TEXT"  
+  />[0m                                                                      
+          153┆ [1m[24m    <input name="submitMessage" value="Submit"               
+  type="SUBMIT"/>[0m                                                               
+          154┆ [1m[24m</form>[0m
+            ⋮┆----------------------------------------
+          169┆ [1m[24m<form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"[0m
+          170┆ [1m[24m      method="POST"           
+  name="form"[0m                                    
+          171┆ [1m[24m      th:action="@{/CrossSiteScripting/quiz}"            
+  role="form">[0m                                                              
+          172┆ [1m[24m    <div                       
+  id="q_container"></div>[0m                         
+          173┆ [1m[24m    <br  
+  />[0m                        
+          174┆ [1m[24m    <input name="Quiz_solutions" value="Submit answers"               
+  type="SUBMIT"/>[0m                                                                        
+          175┆ [1m[24m</form>[0m
+                                                                                         
+  [36m[22m[24m  src/main/resources/lessons/xss/html/CrossSiteScriptingMitigation.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           24┆ [1m[24m<form id="codesubmit" style="height: 100%; min-height: 350px;" class="attack-form"                
+  accept-charset="UNKNOWN" method="POST" name="form" th:action="@{/Cro ... [0m                                          
+           25┆ [1m[24m        
+  <div>[0m                    
+           26┆ [1m[24m            <div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;     
+  height: 350px;" name="editor"></div>[0m                                                                               
+           27┆ [1m[24m            <script th:src="@{/js/libs/ace.js}" type="text/javascript"                 
+  charset="utf-8"></script>[0m                                                                               
+           28┆ [1m[24m            <script th:src="@{/lesson_js/assignment3.js}" type="text/javascript"                 
+  charset="utf-8"></script>[0m                                                                                         
+           29┆ [1m[24m         
+  </div>[0m                    
+           30┆ [1m[24m    <input type="hidden"               
+  name="editor"/>[0m                                         
+           31┆ [1m[24m    <div class="input-group" style="position: absolute; top:        
+  365px;">[0m                                                                             
+           32┆ [1m[24m            <button class="btn btn-primary"                     
+  type="submit">Submit</button>[0m                                                    
+           33┆ [1m[24m         
+  </div>[0m                    
+            [shortened a long line from output, adjust with --max-chars-per-line]
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+           44┆ [1m[24m<form id="codesubmit2" style="height: 100%; min-height: 350px;" class="attack-form"               
+  accept-charset="UNKNOWN" method="POST" name="form" th:action="@{/Cr ... [0m                                           
+           45┆ [1m[24m        
+  <div>[0m                    
+           46┆ [1m[24m            <div id="editor2" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;    
+  height: 350px;" name="editor2"></div>[0m                                                                              
+           47┆ [1m[24m            <script th:src="@{/js/libs/ace.js}" type="text/javascript"                 
+  charset="utf-8"></script>[0m                                                                               
+           48┆ [1m[24m            <script th:src="@{/lesson_js/assignment4.js}" type="text/javascript"                 
+  charset="utf-8"></script>[0m                                                                                         
+           49┆ [1m[24m         
+  </div>[0m                    
+           50┆ [1m[24m    <input type="hidden"                
+  name="editor2"/>[0m                                         
+           51┆ [1m[24m    <div class="input-group" style="position: absolute; top:        
+  365px;">[0m                                                                             
+           52┆ [1m[24m            <button class="btn btn-primary"                     
+  type="submit">Submit</button>[0m                                                    
+           53┆ [1m[24m         
+  </div>[0m                    
+            [shortened a long line from output, adjust with --max-chars-per-line]
+             [hid 1 additional lines, adjust with --max-lines-per-finding] 
+                                                                                     
+  [36m[22m[24m  src/main/resources/lessons/xss/html/CrossSiteScriptingStored.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           68┆ [1m[24m<form class="attack-form" accept-charset="UNKNOWN"[0m
+           69┆ [1m[24m      method="POST"                  
+  name="DOMFollowUp"[0m                                    
+           70┆ [1m[24m                                                                   
+  th:action="@{/CrossSiteScriptingStored/stored-xss-follow-up}">[0m                      
+           71┆ [1m[24m    <input name="successMessage" value="" type="TEXT"  
+  />[0m                                                                      
+           72┆ [1m[24m    <input name="submitMessage" value="Submit"               
+  type="SUBMIT"/>[0m                                                               
+           73┆ [1m[24m</form>[0m
+                                                                             
+  [36m[22m[24m  src/main/resources/webgoat/static/js/libs/backbone-min.js [0m
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `t` function argument, this might allow an attacker to cause a     
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+            1┆  ... [1m[24mnew RegExp("^"+t+"(?:\\?([\\s\\S]*))?$")[0m},_extractParameters:function(t,e){var            
+  n=t.exec(e).slice(1);return i.map(n,function(t,e){if(e===n.length-1) ... [0m                                          
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                                 
+  [36m[22m[24m  src/main/resources/webgoat/static/js/libs/jquery-ui-1.10.4.js [0m
+       [1m[24mjavascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-
+       loop[0m                                                                                                
+          Possibility of prototype polluting function detected. By adding or modifying attributes of          
+          an object prototype, it is possible to create attributes that exist on every object, or             
+          replace critical attributes with malicious ones. This can be problematic if the software            
+          depends on existence or non-existence of certain attributes, or uses pre-defined attributes         
+          of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations             
+          might be: freezing the object prototype, using an object without prototypes (via                    
+          Object.create(null) ), blocking modifications of attributes that resolve to object                  
+          prototype, using Map instead of object.                                                             
+          Details: https://sg.run/w1DB                                                                        
+                                                                                                              
+          622┆ [1m[24mcurOption = curOption[ parts[ i ] ][0m;
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `term` function argument, this might allow an attacker to cause a  
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+         7171┆ var matcher = [1m[24mnew RegExp( $.ui.autocomplete.escapeRegex(term), "i" )[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `event` function argument, this might allow an attacker to cause a 
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+        11639┆ regex = [1m[24mnew RegExp( "^" + escape( character ), "i" )[0m;
+            ⋮┆----------------------------------------
+        11651┆ regex = [1m[24mnew RegExp( "^" + escape( character ), "i" )[0m;
+                                                                          
+  [36m[22m[24m  src/main/resources/webgoat/static/js/libs/mode-java.js [0m
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m   
+          RegExp() called with a `commentRegex` function argument, this might allow an attacker to    
+          cause a Regular Expression Denial-of-Service (ReDoS) within your application as RegExP      
+          blocks the main thread. For this reason, it is recommended to use hardcoded regexes instead.
+          If your regex is run on user-controlled input, consider performing input validation or use a
+          regex checking/sanitization library such as https://www.npmjs.com/package/recheck to verify 
+          that the regex does not appear vulnerable to ReDoS.                                         
+          Details: https://sg.run/gr65                                                                
+                                                                                                      
+          573┆ this.foldingStartMarker = [1m[24mnew RegExp([0m
+          574┆ [1m[24m    this.foldingStartMarker.source.replace(/\|[^|]*?$/, "|" + commentRegex.start)[0m
+          575┆ [1m[24m)[0m;
+            ⋮┆----------------------------------------
+          576┆ this.foldingStopMarker = [1m[24mnew RegExp([0m
+          577┆ [1m[24m    this.foldingStopMarker.source.replace(/\|[^|]*?$/, "|" + commentRegex.end)[0m
+          578┆ [1m[24m)[0m;
+                                                                               
+  [36m[22m[24m  src/main/resources/webgoat/static/js/libs/underscore-min.js [0m
+       [1m[24mjavascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-
+       loop[0m                                                                                                
+          Possibility of prototype polluting function detected. By adding or modifying attributes of          
+          an object prototype, it is possible to create attributes that exist on every object, or             
+          replace critical attributes with malicious ones. This can be problematic if the software            
+          depends on existence or non-existence of certain attributes, or uses pre-defined attributes         
+          of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations             
+          might be: freezing the object prototype, using an object without prototypes (via                    
+          Object.create(null) ), blocking modifications of attributes that resolve to object                  
+          prototype, using Map instead of object.                                                             
+          Details: https://sg.run/w1DB                                                                        
+                                                                                                              
+            6┆  ... [1m[24mn=n[r[e]][0m}return t?n:void 0}h.iteratee=m;var A=Math.pow(2,53)-1,O=w("length");function    
+  M(n){var r=O(n);return"number"==typeof r&&0<=r&&r<=A}functio ... [0m                                                  
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `r` function argument, this might allow an attacker to cause a     
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+            6┆  ... [1m[24mRegExp(n)[0m,u=RegExp(n,"g");return function(n){return                                       
+  n=null==n?"":""+n,e.test(n)?n.replace(u,t):n}}var sr=pr(cr),vr=pr(lr);var hr=0;var gr=h.templat ... [0m               
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+            6┆  ... [1m[24mRegExp(n,"g")[0m;return function(n){return n=null==n?"":""+n,e.test(n)?n.replace(u,t):n}}var 
+  sr=pr(cr),vr=pr(lr);var hr=0;var gr=h.templateSettings={e ... [0m                                                     
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-
+       loop[0m                                                                                                
+          Possibility of prototype polluting function detected. By adding or modifying attributes of          
+          an object prototype, it is possible to create attributes that exist on every object, or             
+          replace critical attributes with malicious ones. This can be problematic if the software            
+          depends on existence or non-existence of certain attributes, or uses pre-defined attributes         
+          of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations             
+          might be: freezing the object prototype, using an object without prototypes (via                    
+          Object.create(null) ), blocking modifications of attributes that resolve to object                  
+          prototype, using Map instead of object.                                                             
+          Details: https://sg.run/w1DB                                                                        
+                                                                                                              
+            6┆  ... [1m[24mn=n[u][0m}return!!t},identity:ur,constant:function(n){return function(){return               
+  n}},noop:function(){},property:or,propertyOf:function(r){return null==r ... [0m                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `n` function argument, this might allow an attacker to cause a     
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+            6┆  ...                                                                                                     
+  [1m[24mRegExp([(n.escape||yr).source,(n.interpolate||yr).source,(n.evaluate||yr).source].join("|")+"|$","g")[0m,i=0,a=
+  "__p+='";o.replace(e,function(n,r,t,e,u ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m 
+          RegExp() called with a `r` function argument, this might allow an attacker to cause a     
+          Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the 
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your 
+          regex is run on user-controlled input, consider performing input validation or use a regex
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that
+          the regex does not appear vulnerable to ReDoS.                                            
+          Details: https://sg.run/gr65                                                              
+                                                                                                    
+            6┆  ...                                                                                                     
+  [1m[24mRegExp([(n.escape||yr).source,(n.interpolate||yr).source,(n.evaluate||yr).source].join("|")+"|$","g")[0m,i=0,a=
+  "__p+='";o.replace(e,function(n,r,t,e,u ... [0m                                                                       
+            [shortened a long line from output, adjust with --max-chars-per-line]
+                                                                
+  [36m[22m[24m  src/main/resources/webgoat/static/js/quiz.js [0m
+       [1m[24mjavascript.browser.security.insecure-document-method.insecure-document-method[0m   
+          User controlled data in methods like `innerHTML`, `outerHTML` or `document.write` is an
+          anti-pattern that can lead to XSS vulnerabilities                                      
+          Details: https://sg.run/LwA9                                                           
+                                                                                                 
+           34┆ [1m[24mdocument.getElementById("q_container").innerHTML = html;[0m
+                                                                                                       
+  [36m[22m[24m  src/main/resources/webgoat/static/plugins/bootstrap-wysihtml5/js/wysihtml5-0.3.0.js [0m
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m  
+          RegExp() called with a `nodeTypes` function argument, this might allow an attacker to cause
+          a Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your  
+          regex is run on user-controlled input, consider performing input validation or use a regex 
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that 
+          the regex does not appear vulnerable to ReDoS.                                             
+          Details: https://sg.run/gr65                                                               
+                                                                                                     
+          843┆ regex = [1m[24mnew RegExp("^(" + nodeTypes.join("|") + ")$")[0m;
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.browser.security.insecure-document-method.insecure-document-method[0m   
+          User controlled data in methods like `innerHTML`, `outerHTML` or `document.write` is an
+          anti-pattern that can lead to XSS vulnerabilities                                      
+          Details: https://sg.run/LwA9                                                           
+                                                                                                 
+         1189┆ [1m[24mel.innerHTML = fragmentStr;[0m
+            ⋮┆----------------------------------------
+         1206┆ [1m[24mel.innerHTML = fragmentStr;[0m
+            ⋮┆----------------------------------------
+         4011┆ [1m[24mtempElement.innerHTML = "<span></span>" + _convertUrlsToLinks(textNode.data);[0m
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp[0m  
+          RegExp() called with a `className` function argument, this might allow an attacker to cause
+          a Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the
+          main thread. For this reason, it is recommended to use hardcoded regexes instead. If your  
+          regex is run on user-controlled input, consider performing input validation or use a regex 
+          checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that 
+          the regex does not appear vulnerable to ReDoS.                                             
+          Details: https://sg.run/gr65                                                               
+                                                                                                     
+         4079┆ element.className = element.className.replace([1m[24mnew RegExp("(^|\\s+)" + className + "(\\s+|$)")[0m, 
+  " ");                                                                                                                 
+            ⋮┆----------------------------------------
+         4088┆ return (elementClassName.length > 0 && (elementClassName == className || [1m[24mnew RegExp("(^|\\s)" +   
+  className + "(\\s|$)")[0m.test(elementClassName)));                                                                   
+            ⋮┆----------------------------------------
+       [1m[24mjavascript.browser.security.insecure-document-method.insecure-document-method[0m   
+          User controlled data in methods like `innerHTML`, `outerHTML` or `document.write` is an
+          anti-pattern that can lead to XSS vulnerabilities                                      
+          Details: https://sg.run/LwA9                                                           
+                                                                                                 
+         4354┆ try { [1m[24mtempElement.innerHTML = html;[0m } catch(e) {}
+            ⋮┆----------------------------------------
+         4391┆ [1m[24mtempElement.innerHTML = html;[0m
+            ⋮┆----------------------------------------
+         5999┆ try { [1m[24mnode.innerHTML = wysihtml5.INVISIBLE_SPACE;[0m } catch(e) {}
+            ⋮┆----------------------------------------
+         6202┆ [1m[24melement.innerHTML = wysihtml5.INVISIBLE_SPACE;[0m
+            ⋮┆----------------------------------------
+         6695┆ try { [1m[24mnode.innerHTML = wysihtml5.INVISIBLE_SPACE;[0m } catch(e) {}
+            ⋮┆----------------------------------------
+         7940┆ [1m[24mthis.element.innerHTML = browser.displaysCaretInEmptyContentEditableCorrectly() ? "" :            
+  this.CARET_HACK;[0m                                                                                                   
+            ⋮┆----------------------------------------
+         7962┆ [1m[24mthis.element.innerHTML = html;[0m
+            ⋮┆----------------------------------------
+         8056┆ [1m[24mthis.element.innerHTML  = this.textarea.getValue(true);[0m
+                                                                   
+  [36m[22m[24m  src/main/resources/webgoat/templates/login.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           31┆ [1m[24m<form th:action="@{/login}" method='POST' style="width: 200px;">[0m
+           32┆ [1m[24m    <div class="form-group">[0m
+           33┆ [1m[24m        <label for="exampleInputEmail1" th:text="#{username}">Username</label>[0m
+           34┆ [1m[24m        <input autofocus="dummy_for_thymeleaf_parser" type="text" class="form-control"[0m
+           35┆ [1m[24m               id="exampleInputEmail1" th:placeholder="#{username}" name='username' />[0m
+           36┆ [1m[24m    </div>[0m
+           37┆ [1m[24m    <div class="form-group">[0m
+           38┆ [1m[24m        <label for="exampleInputPassword1" th:text="#{password}">Password</label>[0m
+           39┆ [1m[24m        <input type="password" class="form-control" id="exampleInputPassword1"                    
+  th:placeholder="#{password}"[0m                                                                                       
+           40┆ [1m[24m               name='password' />[0m
+             [hid 4 additional lines, adjust with --max-lines-per-finding] 
+                                                                   
+  [36m[22m[24m  src/main/resources/webwolf/templates/files.html [0m
+       [1m[24mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m               
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           32┆ [1m[24m<form th:action="@{/fileupload}" method="post" enctype="multipart/form-data">[0m
+           33┆ [1m[24m    <fieldset>[0m
+           34┆ [1m[24m        <div class="mb-3">[0m
+           35┆ [1m[24m            <input type="file" class="form-control" name="file"/>[0m
+           36┆ [1m[24m        </div>[0m
+           37┆ [1m[24m        <div class="mb-3">[0m
+           38┆ [1m[24m            <button type="submit" class="btn btn-md btn-primary">Upload files</button>[0m
+           39┆ [1m[24m        </div>[0m
+           40┆ [1m[24m    </fieldset>[0m
+           41┆ [1m[24m</form>[0m
+

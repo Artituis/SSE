@@ -2,12 +2,33 @@
 
 ## a) How is defensive coding different from risk analysis and secure design?
 
-While risk analysis is about domain threats and  secure design is about minimizing risk, and attack vectors, defensive coding is about creating code that is secure, that uses security components the proper way, and is a lot more related to the programing and architecture side.   
+While risk analysis is about domain threats, priotization of critical problems, what could go wrong and  secure design is about minimizing risk, principle of least privilege and attack vectors, defensive coding is about creating code that is secure, that uses security components the proper way, and is a lot more related to the programing and architecture side.
+
+## b) What are the defensive coding principle?
+
+REVIEW THIS
+
+Writing insecure code is surprisingly easy
+• Mysterious coding assumptions
+• Many different technologies to know
+🔧 Maintainability still counts
+• Duplicate code is even harder to secure
+• Vulnerabilities often have regressions and incomplete fixes
+📚 Know your APIs!
+• Misusing an API in the wrong context can be a vulnerability
+e.g. an XML parser that also executes includes
+• Copying from Internet examples without understanding? For shame.
+🎭 Don’t be paranoid
+• Know what you can trust, but don’t trust StackOverflow or ChatGPT blindly
+23
+
 
 The principles of defensive coding are 
 
-- Input Handling
-    Validate and Sanitize
+### - Input Handling
+
+Validate and Sanitize
+
 ### - Error and Information Control
 Handle Exeptions
 
@@ -35,11 +56,11 @@ Create own way of clonning a class. Built in ways of cloning objects are insecur
 
 Cloning allows a class to be instatiated without the constructor.
 
-- State Managment
-- Data Protection
-- Boundary Control
+This also relates to serializable objects **"Deserializing is essentially constructing objects without executing constructors"**
 
-## b) What are the defensive coding principle?
+### - State Managment
+### - Data Protection
+### - Boundary Control
 
 # Ex. 2 - Complexity
 
@@ -47,7 +68,13 @@ Cloning allows a class to be instatiated without the constructor.
 
 A complex code is more difficult to debug, to test, and to understand. These factors make the chances of a security flaw or a logic flaw to be much higher. 
 
+Ciclomatic complexity and architechtural complexity makes
+
 # Ex. 3 - Control flow graph
+
+
+
+TODO: STUDY HOW TO DO THIS GRAPH BY HAND
 
 The Formula: M = E - N + 2P
 • E = Edges (arrows in the graph)

@@ -1,0 +1,479 @@
+/SSE/ex_sh_6/logging-log4j2$ semgrep scan
+METRICS: Using configs from the Registry (like --config=p/ci) reports pseudonymous rule metrics to semgrep.dev.
+To disable Registry rule metrics, use "--metrics=off".
+Using configs only from local files (like --config=xyz.yml) does not enable metrics.
+
+More information: https://semgrep.dev/docs/metrics
+
+
+┌──── ○○○ ────┐
+│ Semgrep CLI │
+└─────────────┘
+
+Scanning 3312 files (only git-tracked) with:
+
+✔ Semgrep OSS
+  ✔ Basic security coverage for first-party code vulnerabilities.
+
+✘ Semgrep Code (SAST)
+  ✘ Find and fix vulnerabilities in the code you write with advanced scanning and expert security rules.
+
+✘ Semgrep Supply Chain (SCA)
+  ✘ Find and fix the reachable vulnerabilities in your OSS dependencies.
+
+💎 Get started with all Semgrep products via `semgrep login`.
+✨ Learn more at https://semgrep.dev/products/cloud-platform/.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:27                                                                                         
+
+Warning: 2 timeout error(s) in log4j-core/src/main/java/org/apache/logging/log4j/core/tools/Generate.java when running
+the following rules: [java.spring.security.injection.tainted-sql-string.tainted-sql-string,
+java.spring.security.injection.tainted-url-host.tainted-url-host]
+
+
+┌──────────────────┐
+│ 45 Code Findings │
+└──────────────────┘
+
+    log4j-1.2-api/src/main/java/org/apache/log4j/xml/XmlConfiguration.java
+       java.lang.security.audit.xxe.documentbuilderfactory-disallow-doctype-decl-              
+       missing.documentbuilderfactory-disallow-doctype-decl-missing
+          DOCTYPE declarations are enabled for this DocumentBuilderFactory. This is vulnerable to XML
+          external entity attacks. Disable this by setting the feature
+          "http://apache.org/xml/features/disallow-doctype-decl" to true. Alternatively, allow DOCTYPE
+          declarations and only prohibit external entities declarations. This can be done by setting
+          the features "http://xml.org/sax/features/external-general-entities" and
+          "http://xml.org/sax/features/external-parameter-entities" to false.
+          Details: https://sg.run/PYBz
+
+           ▶▶┆ Autofix ▶ dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+  dbf.newDocumentBuilder();
+          161┆ DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+
+    log4j-api/src/main/java/org/apache/logging/log4j/util/LoaderUtil.java
+       java.lang.security.audit.unsafe-reflection.unsafe-reflection
+          If an attacker can supply values that the application then uses to determine which class to
+          instantiate or which method to invoke, the potential exists for the attacker to create
+          control flow paths through the application that were not intended by the application
+          developers. This attack vector may allow the attacker to bypass authentication or access
+          control checks or otherwise cause the application to behave in an unexpected manner.
+          Details: https://sg.run/R8X8
+
+          162┆ return Class.forName(className);
+            ⋮┆----------------------------------------
+          171┆ return Class.forName(className);
+
+    log4j-api/src/main/java/org/apache/logging/log4j/util/SortedArrayStringMap.java
+       java.lang.security.audit.object-deserialization.object-deserialization
+          Found object deserialization using ObjectInputStream. Deserializing entire Java objects is
+          dangerous because malicious actors can create Java object streams with unintended
+          consequences. Ensure that the objects being deserialized are not user-controlled. If this
+          must be done, consider using HMACs to sign the data stream to make sure it is not tampered
+          with, or consider only transmitting object fields and populating a new object.
+          Details: https://sg.run/Ek0A
+
+          559┆ ois = new ObjectInputStream(bin);
+
+
+  log4j-core/src/main/java/org/apache/logging/log4j/core/appender/db/jdbc/AbstractDriverManagerConnectionSource.java
+       java.lang.security.audit.unsafe-reflection.unsafe-reflection
+          If an attacker can supply values that the application then uses to determine which class to
+          instantiate or which method to invoke, the potential exists for the attacker to create
+          control flow paths through the application that were not intended by the application
+          developers. This attack vector may allow the attacker to bypass authentication or access
+          control checks or otherwise cause the application to behave in an unexpected manner.
+          Details: https://sg.run/R8X8
+
+          200┆ Class.forName(className);
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/config/xml/XmlConfiguration.java
+       java.lang.security.audit.xxe.documentbuilderfactory-disallow-doctype-decl-              
+       missing.documentbuilderfactory-disallow-doctype-decl-missing
+          DOCTYPE declarations are enabled for this DocumentBuilderFactory. This is vulnerable to XML
+          external entity attacks. Disable this by setting the feature
+          "http://apache.org/xml/features/disallow-doctype-decl" to true. Alternatively, allow DOCTYPE
+          declarations and only prohibit external entities declarations. This can be done by setting
+          the features "http://xml.org/sax/features/external-general-entities" and
+          "http://xml.org/sax/features/external-parameter-entities" to false.
+          Details: https://sg.run/PYBz
+
+           ▶▶┆ Autofix ▶ factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+  true);
+  factory.newDocumentBuilder();
+          191┆ return factory.newDocumentBuilder();
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/net/TcpSocketManager.java
+       java.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket
+          Detected use of a Java socket that is not encrypted. As a result, the traffic could be read
+          by an attacker intercepting the network traffic. Use an SSLSocket created by
+          'SSLSocketFactory' or 'SSLServerSocketFactory' instead.
+          Details: https://sg.run/W8zA
+
+          401┆ final Socket newSocket = new Socket();
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/net/ssl/LaxHostnameVerifier.java
+       java.lang.security.audit.crypto.ssl.insecure-hostname-verifier.insecure-hostname-verifier
+          Insecure HostnameVerifier implementation detected. This will accept any SSL certificate with
+          any hostname, which creates the possibility for man-in-the-middle attacks.
+          Details: https://sg.run/5QoD
+
+           25┆ public final class LaxHostnameVerifier implements HostnameVerifier {
+           26┆     /**
+           27┆      * Singleton instance.
+           28┆      */
+           29┆     public static final HostnameVerifier INSTANCE = new LaxHostnameVerifier();
+           30┆
+           31┆     private LaxHostnameVerifier() {
+           32┆     }
+           33┆
+           34┆     @Override
+             [hid 4 additional lines, adjust with --max-lines-per-finding]
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/script/ScriptManager.java
+       java.lang.security.audit.script-engine-injection.script-engine-injection
+          Detected potential code injection using ScriptEngine. Ensure user-controlled data cannot
+          enter '.eval()', otherwise, this is a code injection vulnerability.
+          Details: https://sg.run/gLqn
+
+          220┆ @Override
+          221┆ public Object execute(final Bindings bindings) {
+          222┆     if (compiledScript != null) {
+          223┆         try {
+          224┆             return compiledScript.eval(bindings);
+          225┆         } catch (final ScriptException ex) {
+          226┆             logger.error("Error running script " + script.getName(), ex);
+          227┆             return null;
+          228┆         }
+          229┆     }
+             [hid 7 additional lines, adjust with --max-lines-per-finding]
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/util/Loader.java
+       java.lang.security.audit.unsafe-reflection.unsafe-reflection
+          If an attacker can supply values that the application then uses to determine which class to
+          instantiate or which method to invoke, the potential exists for the attacker to create
+          control flow paths through the application that were not intended by the application
+          developers. This attack vector may allow the attacker to bypass authentication or access
+          control checks or otherwise cause the application to behave in an unexpected manner.
+          Details: https://sg.run/R8X8
+
+          228┆ return Class.forName(className, true, loader);
+            ⋮┆----------------------------------------
+          254┆ return Class.forName(className, true, ClassLoader.getSystemClassLoader());
+            ⋮┆----------------------------------------
+          257┆ return Class.forName(className);
+
+    log4j-core/src/main/java/org/apache/logging/log4j/core/util/NameUtil.java
+       java.lang.security.audit.bad-hexa-conversion.bad-hexa-conversion
+          'Integer.toHexString()' strips leading zeroes from each byte if read byte-by-byte. This
+          mistake weakens the hash value computed since it introduces more collisions. Use
+          'String.format("%02X", ...)' instead.
+          Details: https://sg.run/1Z7D
+
+           41┆ public static String md5(final String string) {
+           42┆     try {
+           43┆         final MessageDigest digest = MessageDigest.getInstance("MD5");
+           44┆         digest.update(string.getBytes());
+           45┆         final byte[] bytes = digest.digest();
+           46┆         final StringBuilder md5 = new StringBuilder();
+           47┆         for (final byte b : bytes) {
+           48┆             final String hex = Integer.toHexString(MASK & b);
+           49┆             if (hex.length() == 1) {
+           50┆                 md5.append('0');
+             [hid 8 additional lines, adjust with --max-lines-per-finding]
+       java.lang.security.audit.crypto.use-of-md5.use-of-md5
+          Detected MD5 hash algorithm which is considered insecure. MD5 is not collision resistant and
+          is therefore not suitable as a cryptographic signature. Use HMAC instead.
+          Details: https://sg.run/ryJn
+
+           ▶▶┆ Autofix ▶ "SHA-512"
+           43┆ final MessageDigest digest = MessageDigest.getInstance("MD5");
+
+    log4j-flume-ng/src/main/java/org/apache/logging/log4j/flume/appender/FlumePersistentManager.java
+       java.lang.security.audit.crypto.use-of-default-aes.use-of-default-aes
+          Use of AES with no settings detected. By default, java.crypto.Cipher uses ECB mode. ECB
+          doesn't  provide message confidentiality and is not semantically secure so should not be
+          used. Instead, use a strong, secure cipher:
+          java.crypto.Cipher.getInstance("AES/CBC/PKCS7PADDING"). See https://owasp.org/www-
+          community/Using_the_Java_Cryptographic_Extensions for more information.
+          Details: https://sg.run/nzKO
+
+          193┆ final Cipher cipher = Cipher.getInstance("AES");
+            ⋮┆----------------------------------------
+          793┆ final Cipher cipher = Cipher.getInstance("AES");
+
+    log4j-perf/src/main/java/org/apache/logging/log4j/perf/jmh/FileAppenderThrowableBenchmark.java
+       java.lang.security.audit.unsafe-reflection.unsafe-reflection
+          If an attacker can supply values that the application then uses to determine which class to
+          instantiate or which method to invoke, the potential exists for the attacker to create
+          control flow paths through the application that were not intended by the application
+          developers. This attack vector may allow the attacker to bypass authentication or access
+          control checks or otherwise cause the application to behave in an unexpected manner.
+          Details: https://sg.run/R8X8
+
+          129┆ new Class<?>[]{Class.forName(FileAppenderThrowableBenchmark.class.getName() + "$TestIface" + (i % 
+  31))},
+
+    log4j-perf/src/main/java/org/apache/logging/log4j/perf/jmh/ReflectionBenchmark.java
+       java.lang.security.audit.unsafe-reflection.unsafe-reflection
+          If an attacker can supply values that the application then uses to determine which class to
+          instantiate or which method to invoke, the potential exists for the attacker to create
+          control flow paths through the application that were not intended by the application
+          developers. This attack vector may allow the attacker to bypass authentication or access
+          control checks or otherwise cause the application to behave in an unexpected manner.
+          Details: https://sg.run/R8X8
+
+           93┆ return Class.forName(new Throwable().getStackTrace()[3].getClassName());
+            ⋮┆----------------------------------------
+           98┆ return Class.forName(Thread.currentThread().getStackTrace()[3].getClassName());
+
+
+  log4j-spring-cloud-config/log4j-spring-cloud-config-samples/log4j-spring-cloud-config-sample-application/docker/app-co
+  mpose.yml
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'sampleapp' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+            3┆ sampleapp:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'sampleapp' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+            3┆ sampleapp:
+
+
+  log4j-spring-cloud-config/log4j-spring-cloud-config-samples/log4j-spring-cloud-config-sample-application/docker/combin
+  ed-compose.yml
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'socat' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
+          privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+            3┆ socat:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'socat' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+            3┆ socat:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.exposing-docker-socket-volume.exposing-docker-socket-volume
+          Exposing host's Docker socket to containers via a volume. The owner of this socket is root.
+          Giving someone access to it is equivalent to giving unrestricted root access to your host.
+          Remove 'docker.sock' from volumes to prevent this.
+          Details: https://sg.run/O14b
+
+            9┆ volumes:
+           10┆   - /var/run/docker.sock:/var/run/docker.sock
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'rabbitmq' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           16┆ rabbitmq:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'rabbitmq' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           16┆ rabbitmq:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'fluent-bit' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           33┆ fluent-bit:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'fluent-bit' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           33┆ fluent-bit:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'flume' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
+          privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           50┆ flume:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'flume' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           50┆ flume:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'sampleapp' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           69┆ sampleapp:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'sampleapp' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           69┆ sampleapp:
+
+
+  log4j-spring-cloud-config/log4j-spring-cloud-config-samples/log4j-spring-cloud-config-sample-application/docker/docker
+  -compose.yml
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'socat' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
+          privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+            3┆ socat:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'socat' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+            3┆ socat:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.exposing-docker-socket-volume.exposing-docker-socket-volume
+          Exposing host's Docker socket to containers via a volume. The owner of this socket is root.
+          Giving someone access to it is equivalent to giving unrestricted root access to your host.
+          Remove 'docker.sock' from volumes to prevent this.
+          Details: https://sg.run/O14b
+
+            9┆ volumes:
+           10┆   - /var/run/docker.sock:/var/run/docker.sock
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'rabbitmq' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           16┆ rabbitmq:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'rabbitmq' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           16┆ rabbitmq:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'fluent-bit' allows for privilege escalation via setuid or setgid binaries. Add 'no-
+          new-privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           33┆ fluent-bit:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'fluent-bit' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           33┆ fluent-bit:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.no-new-privileges.no-new-privileges
+          Service 'flume' allows for privilege escalation via setuid or setgid binaries. Add 'no-new-
+          privileges:true' in 'security_opt' to prevent this.
+          Details: https://sg.run/0n8q
+
+           50┆ flume:
+            ⋮┆----------------------------------------
+       yaml.docker-compose.security.writable-filesystem-service.writable-filesystem-service
+          Service 'flume' is running with a writable root filesystem. This may allow malicious
+          applications to download and run additional payloads, or modify container files. If an
+          application inside a container has to save something temporarily consider using a tmpfs. Add
+          'read_only: true' to this service to prevent this.
+          Details: https://sg.run/e4JE
+
+           50┆ flume:
+
+
+  log4j-spring-cloud-config/log4j-spring-cloud-config-samples/log4j-spring-cloud-config-sample-application/k8s/sampleapp
+  -deployment.yaml
+       yaml.kubernetes.security.run-as-non-root.run-as-non-root
+          When running containers in Kubernetes, it's important to ensure that they  are properly
+          secured to prevent privilege escalation attacks.  One potential vulnerability is when a
+          container is allowed to run  applications as the root user, which could allow an attacker to
+          gain  access to sensitive resources. To mitigate this risk, it's recommended to  add a
+          `securityContext` to the container, with the parameter `runAsNonRoot`  set to `true`. This
+          will ensure that the container runs as a non-root user,  limiting the damage that could be
+          caused by any potential attacks. By  adding a `securityContext` to the container in your
+          Kubernetes pod, you can  help to ensure that your containerized applications are more secure
+          and  less vulnerable to privilege escalation attacks.
+          Details: https://sg.run/dgP5
+
+           ▶▶┆ Autofix ▶ spec:
+    securityContext:
+      runAsNonRoot: true #
+           16┆ spec:
+            ⋮┆----------------------------------------
+       yaml.kubernetes.security.allow-privilege-escalation-no-securitycontext.allow-privilege- 
+       escalation-no-securitycontext
+          In Kubernetes, each pod runs in its own isolated environment with its own set of security
+          policies. However, certain container images may contain `setuid` or `setgid` binaries that
+          could allow an attacker to perform privilege escalation and gain access to sensitive
+          resources. To mitigate this risk, it's recommended to add a `securityContext` to the
+          container in the pod, with the parameter `allowPrivilegeEscalation` set to `false`. This
+          will prevent the container from running any privileged processes and limit the impact of any
+          potential attacks. By adding a `securityContext` to your Kubernetes pod, you can help to
+          ensure that your containerized applications are more secure and less vulnerable to privilege
+          escalation attacks.
+          Details: https://sg.run/eleR
+
+           ▶▶┆ Autofix ▶ securityContext:
+    allowPrivilegeEscalation: false
+  name
+           18┆ - name: sampleapp
+            ⋮┆----------------------------------------
+           ▶▶┆ Autofix ▶ securityContext:
+    allowPrivilegeEscalation: false
+  name
+           27┆ - name: key-value-store
+
+
+  log4j-spring-cloud-config/log4j-spring-cloud-config-samples/log4j-spring-cloud-config-sample-server/src/main/java/org/
+  apache/logging/log4j/spring/cloud/config/service/config/SecurityConfiguration.java
+       java.spring.security.audit.spring-csrf-disabled.spring-csrf-disabled
+          CSRF protection is disabled for this configuration. This is a security risk.
+          Details: https://sg.run/jRnl
+
+           35┆ getHttp().csrf().disable();
+
+
+
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+Some files were skipped or only partially analyzed.
+  Partially scanned: 2 files only partially analyzed due to parsing or internal Semgrep errors
+  Scan skipped: 1 files larger than 1.0 MB, 1499 files matching .semgrepignore patterns
+  For a full list of skipped files, run semgrep with the --verbose flag.
+
+Ran 220 rules on 1784 files: 45 findings.
+💎 Missed out on 1390 pro rules since you aren't logged in!
