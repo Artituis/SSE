@@ -37,6 +37,14 @@ Architecture is the desig of the system. With multiple components being able to 
 
 You will have more complex code that needs to be sanboxed, and then you have more complexity
 
+Decompose each system, separete them
+
+Principle of least privilege
+
+Use inter processe comunication
+
+Each proccess distrusts each other
+
 # 2 Cross Site Scripting
 
 User inject malicious code into a user field that is run in the browser when a user access that information. 
